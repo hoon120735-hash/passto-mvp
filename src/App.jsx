@@ -111,5 +111,21 @@ function Landing({ setPage }) {
 
       <BottomNav page={0} setPage={setPage} />
     </main>
+    export default function App() {
+  const [page, setPage] = useState(0);
+
+  const pages = [
+    <Landing setPage={setPage} />,
+    <Country setPage={setPage} />,
+    <InputPage setPage={setPage} />,
+    <Analyze setPage={setPage} />,
+    <Recommend setPage={setPage} />,
+    <Cart setPage={setPage} />,
+    <QRGuide setPage={setPage} />,
+    <Complete setPage={setPage} />
+  ];
+
+  return <div className="app">{pages[page]}</div>;
+}
   );
 }
