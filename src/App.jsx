@@ -1,3 +1,28 @@
+import React, { useState } from "react";
+import {
+  Plane,
+  QrCode,
+  ShieldCheck,
+  ShoppingBag,
+  Sparkles,
+  ArrowRight,
+} from "lucide-react";
+
+function Header() {
+  return <header className="header">PASSTO</header>;
+}
+
+function BottomNav({ page, setPage }) {
+  return (
+    <nav className="bottom-nav">
+      <button onClick={() => setPage(0)}>홈</button>
+      <button onClick={() => setPage(4)}>추천</button>
+      <button onClick={() => setPage(5)}>장바구니</button>
+      <button onClick={() => setPage(6)}>QR</button>
+    </nav>
+  );
+}
+
 function Landing({ setPage }) {
   const [keyword, setKeyword] = useState("");
   const [searched, setSearched] = useState(false);
@@ -23,18 +48,26 @@ function Landing({ setPage }) {
         <div className="cloud"></div>
         <Plane className="plane" size={56} />
         <div className="suitcase">🧳</div>
-        <div className="passport">PASSTO<br />QR GUIDE</div>
-        <div className="qr-box"><QrCode size={48} /></div>
+        <div className="passport">
+          PASSTO
+          <br />
+          QR GUIDE
+        </div>
+        <div className="qr-box">
+          <QrCode size={48} />
+        </div>
       </section>
 
       <section className="content">
         <h1>
-          나라를 검색하면,<br />
+          나라를 검색하면,
+          <br />
           <span>여행 키트를 추천해드려요.</span>
         </h1>
 
         <p>
-          국가별 규정·준비물·기내 반입 기준을 바탕으로<br />
+          국가별 규정·준비물·기내 반입 기준을 바탕으로
+          <br />
           PASSTO가 맞춤 여행 키트를 보여드려요.
         </p>
 
@@ -55,9 +88,24 @@ function Landing({ setPage }) {
 
         {!searched && (
           <div className="trust-row">
-            <div><ShieldCheck />규정 걱정<br /><b>ZERO</b></div>
-            <div><ShoppingBag />필수 준비물<br /><b>자동 추천</b></div>
-            <div><Sparkles />검색 시간<br /><b>90% 절약</b></div>
+            <div>
+              <ShieldCheck />
+              규정 걱정
+              <br />
+              <b>ZERO</b>
+            </div>
+            <div>
+              <ShoppingBag />
+              필수 준비물
+              <br />
+              <b>자동 추천</b>
+            </div>
+            <div>
+              <Sparkles />
+              검색 시간
+              <br />
+              <b>90% 절약</b>
+            </div>
           </div>
         )}
 
@@ -65,10 +113,12 @@ function Landing({ setPage }) {
           <div className="search-result-card">
             <div className="result-badge">검색 결과</div>
             <div className="result-image">🇯🇵</div>
+
             <h3>Japan Edition Full Kit</h3>
+
             <p>
-              일본 여행에 필요한 기내 반입 규정 대응 물품과
-              110V 어댑터, 동전지갑, QR 가이드를 함께 구성했어요.
+              일본 여행에 필요한 기내 반입 규정 대응 물품과 110V 어댑터,
+              동전지갑, QR 가이드를 함께 구성했어요.
             </p>
 
             <div className="chip-row">
@@ -91,11 +141,14 @@ function Landing({ setPage }) {
         {searched && !isJapan && (
           <div className="empty-result-card">
             <div className="result-image">🔍</div>
+
             <h3>해당 국가 키트는 아직 없습니다</h3>
+
             <p>
               현재 PASSTO MVP에서는 일본 여행 키트만 제공하고 있어요.
               다른 국가는 추후 업데이트 예정입니다.
             </p>
+
             <button
               className="secondary-btn"
               onClick={() => {
@@ -111,7 +164,105 @@ function Landing({ setPage }) {
 
       <BottomNav page={0} setPage={setPage} />
     </main>
-    export default function App() {
+  );
+}
+
+function Country({ setPage }) {
+  return (
+    <main className="phone">
+      <Header />
+      <section className="content">
+        <h1>국가 선택</h1>
+        <button onClick={() => setPage(0)}>홈으로</button>
+      </section>
+      <BottomNav page={1} setPage={setPage} />
+    </main>
+  );
+}
+
+function InputPage({ setPage }) {
+  return (
+    <main className="phone">
+      <Header />
+      <section className="content">
+        <h1>여행 정보 입력</h1>
+        <button onClick={() => setPage(3)}>분석하기</button>
+      </section>
+      <BottomNav page={2} setPage={setPage} />
+    </main>
+  );
+}
+
+function Analyze({ setPage }) {
+  return (
+    <main className="phone">
+      <Header />
+      <section className="content">
+        <h1>규정 분석 중</h1>
+        <button onClick={() => setPage(4)}>추천 보기</button>
+      </section>
+      <BottomNav page={3} setPage={setPage} />
+    </main>
+  );
+}
+
+function Recommend({ setPage }) {
+  return (
+    <main className="phone">
+      <Header />
+      <section className="content">
+        <h1>Japan Edition Full Kit</h1>
+        <p>일본 여행 맞춤 키트입니다.</p>
+        <button onClick={() => setPage(5)}>장바구니 담기</button>
+      </section>
+      <BottomNav page={4} setPage={setPage} />
+    </main>
+  );
+}
+
+function Cart({ setPage }) {
+  return (
+    <main className="phone">
+      <Header />
+      <section className="content">
+        <h1>장바구니</h1>
+        <p>Japan Edition Full Kit</p>
+        <button onClick={() => setPage(6)}>QR 가이드 보기</button>
+      </section>
+      <BottomNav page={5} setPage={setPage} />
+    </main>
+  );
+}
+
+function QRGuide({ setPage }) {
+  return (
+    <main className="phone">
+      <Header />
+      <section className="content">
+        <h1>QR GUIDE</h1>
+        <QrCode size={80} />
+        <button onClick={() => setPage(7)}>구매 완료</button>
+      </section>
+      <BottomNav page={6} setPage={setPage} />
+    </main>
+  );
+}
+
+function Complete({ setPage }) {
+  return (
+    <main className="phone">
+      <Header />
+      <section className="content">
+        <h1>구매 완료</h1>
+        <p>PASSTO와 함께 안전한 일본 여행을 준비하세요.</p>
+        <button onClick={() => setPage(0)}>처음으로</button>
+      </section>
+      <BottomNav page={7} setPage={setPage} />
+    </main>
+  );
+}
+
+export default function App() {
   const [page, setPage] = useState(0);
 
   const pages = [
@@ -122,10 +273,8 @@ function Landing({ setPage }) {
     <Recommend setPage={setPage} />,
     <Cart setPage={setPage} />,
     <QRGuide setPage={setPage} />,
-    <Complete setPage={setPage} />
+    <Complete setPage={setPage} />,
   ];
 
   return <div className="app">{pages[page]}</div>;
-}
-  );
 }
