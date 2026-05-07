@@ -717,3 +717,18 @@ p {
     width: 100%;
   }
 }
+.guide-grid a {
+  text-decoration: none;
+  color: inherit;
+  background: #fafafa;
+  padding: 34px;
+  border-radius: 4px;
+  min-height: 180px;
+  border: 1px solid transparent;
+  transition: 0.2s;
+}
+
+.guide-grid a:hover {
+  border-color: #6c8ce6;
+  transform: translateY(-3px);
+}
