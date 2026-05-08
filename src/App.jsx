@@ -97,7 +97,19 @@ function Intro({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
 }
 
 function Auth({ setPage, setIsLoggedIn, userId, setUserId }) {
+  const [password, setPassword] = useState("");
+
   const login = () => {
+    if (!userId.trim()) {
+      alert("아이디를 입력해주세요.");
+      return;
+    }
+
+    if (!password.trim()) {
+      alert("비밀번호를 입력해주세요.");
+      return;
+    }
+
     setIsLoggedIn(true);
     setPage("home");
   };
@@ -115,14 +127,19 @@ function Auth({ setPage, setIsLoggedIn, userId, setUserId }) {
         <div className="auth-card">
           <p className="eyebrow">WELCOME TO PASSTO</p>
           <h2>로그인 / 회원가입</h2>
-          <p>로그인하면 홈 화면으로 이동합니다.</p>
+          <p>아이디와 비밀번호를 입력하면 홈 화면으로 이동합니다.</p>
 
           <input
             placeholder="아이디"
             value={userId}
             onChange={(e) => setUserId(e.target.value)}
           />
-          <input placeholder="비밀번호" type="password" />
+          <input
+            placeholder="비밀번호"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
           <button className="primary-btn" onClick={login}>
             로그인하기
@@ -194,7 +211,16 @@ function NaverAuth({ setPage, setIsLoggedIn, setUserId }) {
   const [pw, setPw] = useState("");
 
   const login = () => {
-    if (!id.trim()) return;
+    if (!id.trim()) {
+      alert("아이디를 입력해주세요.");
+      return;
+    }
+
+    if (!pw.trim()) {
+      alert("비밀번호를 입력해주세요.");
+      return;
+    }
+
     setUserId(id);
     setIsLoggedIn(true);
     setPage("home");
@@ -311,7 +337,16 @@ function KakaoAuth({ setPage, setIsLoggedIn, setUserId }) {
   const [pw, setPw] = useState("");
 
   const login = () => {
-    if (!id.trim()) return;
+    if (!id.trim()) {
+      alert("아이디를 입력해주세요.");
+      return;
+    }
+
+    if (!pw.trim()) {
+      alert("비밀번호를 입력해주세요.");
+      return;
+    }
+
     setUserId(id);
     setIsLoggedIn(true);
     setPage("home");
@@ -426,7 +461,11 @@ function GoogleAuth({ setPage, setIsLoggedIn, setUserId }) {
   const [email, setEmail] = useState("");
 
   const login = () => {
-    if (!email.trim()) return;
+    if (!email.trim()) {
+      alert("이메일 또는 아이디를 입력해주세요.");
+      return;
+    }
+
     setUserId(email);
     setIsLoggedIn(true);
     setPage("home");
@@ -1000,7 +1039,59 @@ function Cart({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
   );
 }
 
-function Checkout({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
+function Checkout({ setPage, isLoggedIn, userId, setIsLoggedIn, setOrderHistory }) {
+  const [deliveryInfo, setDeliveryInfo] = useState({
+    name: "",
+    phone: "",
+    address: ""
+  });
+
+  const [paymentMethod, setPaymentMethod] = useState("");
+
+  const createOrderNumber = () => {
+    return "PASSTO-" + Math.floor(10000000 + Math.random() * 90000000);
+  };
+
+  const getCurrentTime = () => {
+    const now = new Date();
+    return now.toLocaleString("ko-KR", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+  };
+
+  const completePayment = () => {
+    if (
+      !deliveryInfo.name.trim() ||
+      !deliveryInfo.phone.trim() ||
+      !deliveryInfo.address.trim()
+    ) {
+      alert("배송 정보를 모두 입력해주세요.");
+      return;
+    }
+
+    if (!paymentMethod) {
+      alert("결제 방법을 선택해주세요.");
+      return;
+    }
+
+    const newOrder = {
+      productName: "일본 여행 키트",
+      paymentTime: getCurrentTime(),
+      paymentAmount: "₩39,800",
+      paymentMethod,
+      orderNumber: createOrderNumber()
+    };
+
+    setOrderHistory((prev) => [newOrder, ...prev]);
+    setPage("complete");
+  };
+
+  const paymentOptions = ["카카오페이", "신용카드", "무통장입금"];
+
   return (
     <main>
       <Header
@@ -1016,14 +1107,51 @@ function Checkout({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
         <div className="checkout-grid">
           <div className="payment-form">
             <h3>배송 정보</h3>
-            <input placeholder="이름" />
-            <input placeholder="연락처" />
-            <input placeholder="주소" />
+
+            <input
+              placeholder="이름"
+              value={deliveryInfo.name}
+              onChange={(e) =>
+                setDeliveryInfo({ ...deliveryInfo, name: e.target.value })
+              }
+            />
+
+            <input
+              placeholder="연락처"
+              value={deliveryInfo.phone}
+              onChange={(e) =>
+                setDeliveryInfo({ ...deliveryInfo, phone: e.target.value })
+              }
+            />
+
+            <input
+              placeholder="주소"
+              value={deliveryInfo.address}
+              onChange={(e) =>
+                setDeliveryInfo({ ...deliveryInfo, address: e.target.value })
+              }
+            />
 
             <h3>결제 방법</h3>
-            <button className="pay-option">카카오페이</button>
-            <button className="pay-option">신용카드</button>
-            <button className="pay-option">무통장입금</button>
+
+            {paymentOptions.map((method) => (
+              <button
+                key={method}
+                className="pay-option"
+                onClick={() => setPaymentMethod(method)}
+                style={{
+                  border:
+                    paymentMethod === method ? "2px solid #111" : "1px solid #ddd",
+                  background: paymentMethod === method ? "#fff7e6" : "white",
+                  fontWeight: paymentMethod === method ? "700" : "400",
+                  transform: paymentMethod === method ? "scale(1.02)" : "scale(1)",
+                  transition: "0.2s"
+                }}
+              >
+                {method}
+                {paymentMethod === method && " ✓"}
+              </button>
+            ))}
           </div>
 
           <div className="order-box">
@@ -1036,12 +1164,16 @@ function Checkout({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
               <span>배송비</span>
               <strong>무료</strong>
             </p>
+            <p>
+              <span>결제 방법</span>
+              <strong>{paymentMethod || "미선택"}</strong>
+            </p>
             <hr />
             <p className="total">
               <span>총 결제 금액</span>
               <strong>₩39,800</strong>
             </p>
-            <button className="primary-btn" onClick={() => setPage("complete")}>
+            <button className="primary-btn" onClick={completePayment}>
               결제 완료하기
             </button>
           </div>
@@ -1132,7 +1264,7 @@ function Vas({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
   );
 }
 
-function Orders({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
+function Orders({ setPage, isLoggedIn, userId, setIsLoggedIn, orderHistory }) {
   return (
     <main>
       <Header
@@ -1147,11 +1279,22 @@ function Orders({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
         <h1>결제 내역 확인</h1>
 
         <div className="review-list">
-          <div>
-            <strong>결제 상품 : 일본 여행 키트</strong>
-            <p>결제 시간 : 2026-05-08 01:45</p>
-            <p>결제 금액 : ₩39,800</p>
-          </div>
+          {orderHistory.length === 0 ? (
+            <div>
+              <strong>아직 결제 내역이 없습니다.</strong>
+              <p>상품을 결제하면 이곳에 주문 내역이 표시됩니다.</p>
+            </div>
+          ) : (
+            orderHistory.map((order, index) => (
+              <div key={index}>
+                <strong>결제 상품 : {order.productName}</strong>
+                <p>주문 번호 : {order.orderNumber}</p>
+                <p>결제 시간 : {order.paymentTime}</p>
+                <p>결제 금액 : {order.paymentAmount}</p>
+                <p>결제 방법 : {order.paymentMethod}</p>
+              </div>
+            ))
+          )}
         </div>
 
         <div className="delivery-status-box">
@@ -1209,6 +1352,7 @@ export default function App() {
   const [page, setPage] = useState("intro");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState("passto_user");
+  const [orderHistory, setOrderHistory] = useState([]);
 
   if (page === "intro") {
     return (
@@ -1277,7 +1421,9 @@ export default function App() {
     setPage,
     isLoggedIn,
     userId,
-    setIsLoggedIn
+    setIsLoggedIn,
+    orderHistory,
+    setOrderHistory
   };
 
   if (page === "home") return <Home {...commonProps} />;
