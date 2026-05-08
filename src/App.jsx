@@ -16,7 +16,7 @@ const PRODUCT_PRICE = 39800;
 const QR_LINK =
   "https://claude.ai/public/artifacts/c259cd38-f8cb-49c2-bf99-9c378c00d1c8";
 
-const HOME_BG_IMAGE = "public/images/airport-bg.jpg";
+const HOME_BG_IMAGE = "images/airport-bg.jpg";
 
 function Header({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
   const goProtected = (target) => {
