@@ -16,6 +16,8 @@ const PRODUCT_PRICE = 39800;
 const QR_LINK =
   "https://claude.ai/public/artifacts/c259cd38-f8cb-49c2-bf99-9c378c00d1c8";
 
+const HOME_BG_IMAGE = "/images/airport-bg.jpg";
+
 function Header({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
   const goProtected = (target) => {
     if (!isLoggedIn) setPage("auth");
@@ -163,7 +165,15 @@ function Home({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
         setIsLoggedIn={setIsLoggedIn}
       />
 
-      <section className="home-airport-hero">
+      <section
+        className="home-airport-hero"
+        style={{
+          backgroundImage: `url(${HOME_BG_IMAGE})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat"
+        }}
+      >
         <div className="home-airport-overlay">
           <div className="home-airport-copy">
             <p className="home-user-text">
@@ -293,36 +303,6 @@ function AboutSection() {
 }
 
 function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
-  const [tab, setTab] = useState("detail");
-  const [rating, setRating] = useState("5");
-  const [review, setReview] = useState("");
-  const [question, setQuestion] = useState("");
-
-  const [reviews, setReviews] = useState([
-    { rating: "5", text: "일본 처음 가는데 준비물이 한 번에 정리돼서 좋았어요." },
-    { rating: "4", text: "QR 가이드가 있어서 공항에서 확인하기 편했습니다." }
-  ]);
-
-  const [questions, setQuestions] = useState([
-    {
-      q: "기내용 캐리어만 가져가도 괜찮나요?",
-      a: "네, 기내 반입 가능한 용량 중심으로 구성되어 있습니다."
-    }
-  ]);
-
-  const submitReview = () => {
-    if (!review.trim()) return;
-    setReviews([{ rating, text: review }, ...reviews]);
-    setReview("");
-    setRating("5");
-  };
-
-  const submitQuestion = () => {
-    if (!question.trim()) return;
-    setQuestions([{ q: question, a: "답변 대기 중입니다." }, ...questions]);
-    setQuestion("");
-  };
-
   return (
     <main>
       <Header
@@ -352,164 +332,6 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
             장바구니 담기 <ShoppingBag size={18} />
           </button>
         </div>
-      </section>
-
-      <section className="product-tabs-wrap">
-        <div className="product-tabs">
-          <button className={tab === "detail" ? "active" : ""} onClick={() => setTab("detail")}>
-            상품상세
-          </button>
-          <button className={tab === "review" ? "active" : ""} onClick={() => setTab("review")}>
-            상품평 ({reviews.length})
-          </button>
-          <button className={tab === "qna" ? "active" : ""} onClick={() => setTab("qna")}>
-            상품문의
-          </button>
-          <button
-            className={tab === "delivery" ? "active" : ""}
-            onClick={() => setTab("delivery")}
-          >
-            배송/교환/반품 안내
-          </button>
-        </div>
-
-        {tab === "detail" && (
-          <div className="tab-content">
-            <h2>필수 표기 정보</h2>
-            <table className="info-table">
-              <tbody>
-                <tr>
-                  <th>상품명</th>
-                  <td>일본 여행 키트 Japan Edition</td>
-                  <th>제품 주요 사항</th>
-                  <td>기내 반입 규정 대응 + 일본 실사용 패키지</td>
-                </tr>
-                <tr>
-                  <th>구성품</th>
-                  <td>
-                    샴푸 50ml, 바디워시 50ml, 치약 25ml, 지퍼백,
-                    110V 어댑터, 동전지갑, QR 가이드
-                  </td>
-                  <th>사용방법</th>
-                  <td>QR 가이드를 통해 기내 반입 가능 여부와 체크리스트를 확인하세요.</td>
-                </tr>
-                <tr>
-                  <th>제조국</th>
-                  <td>대한민국 / 일부 구성품 OEM</td>
-                  <th>주의사항</th>
-                  <td>항공사 및 국가별 규정은 변경될 수 있으므로 출국 전 확인을 권장합니다.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        )}
-
-        {tab === "review" && (
-          <div className="tab-content">
-            <h2>상품평</h2>
-
-            <div className="write-box">
-              <label>평점</label>
-              <select value={rating} onChange={(e) => setRating(e.target.value)}>
-                <option value="5">★★★★★ 5점</option>
-                <option value="4">★★★★☆ 4점</option>
-                <option value="3">★★★☆☆ 3점</option>
-                <option value="2">★★☆☆☆ 2점</option>
-                <option value="1">★☆☆☆☆ 1점</option>
-              </select>
-
-              <textarea
-                value={review}
-                onChange={(e) => setReview(e.target.value)}
-                placeholder="제품 리뷰를 작성해주세요."
-              />
-
-              <button className="primary-btn" onClick={submitReview}>
-                리뷰 등록
-              </button>
-            </div>
-
-            <div className="review-list">
-              {reviews.map((item, index) => (
-                <div key={index}>
-                  <strong>
-                    {"★".repeat(Number(item.rating))}
-                    {"☆".repeat(5 - Number(item.rating))}
-                  </strong>
-                  <p>{item.text}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {tab === "qna" && (
-          <div className="tab-content">
-            <h2>상품문의</h2>
-
-            <div className="write-box">
-              <textarea
-                value={question}
-                onChange={(e) => setQuestion(e.target.value)}
-                placeholder="상품에 대해 궁금한 점을 작성해주세요."
-              />
-              <button className="primary-btn" onClick={submitQuestion}>
-                문의 등록
-              </button>
-            </div>
-
-            <div className="review-list">
-              {questions.map((item, index) => (
-                <div key={index}>
-                  <strong>Q. {item.q}</strong>
-                  <p>A. {item.a}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {tab === "delivery" && (
-          <div className="tab-content">
-            <h2>배송정보</h2>
-
-            <table className="info-table">
-              <tbody>
-                <tr>
-                  <th>배송방법</th>
-                  <td>순차배송</td>
-                  <th>배송비</th>
-                  <td>무료배송 / 도서산간 지역 추가비용 없음</td>
-                </tr>
-                <tr>
-                  <th>배송기간</th>
-                  <td colSpan="3">
-                    주문 및 결제 완료 후 1~3일 이내 도착 예정입니다.
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-
-            <h2>교환/반품 안내</h2>
-
-            <table className="info-table">
-              <tbody>
-                <tr>
-                  <th>교환/반품 비용</th>
-                  <td>단순 변심의 경우 왕복 배송비가 발생할 수 있습니다.</td>
-                </tr>
-                <tr>
-                  <th>신청 기준일</th>
-                  <td>제품 수령 후 7일 이내 신청 가능합니다.</td>
-                </tr>
-                <tr>
-                  <th>제한사항</th>
-                  <td>상품 개봉, 구성품 분실, 사용 흔적이 있는 경우 제한될 수 있습니다.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        )}
       </section>
 
       <Footer />
