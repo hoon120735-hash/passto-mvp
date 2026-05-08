@@ -130,11 +130,422 @@ function Auth({ setPage, setIsLoggedIn, userId, setUserId }) {
           <button className="secondary-btn" onClick={login}>
             회원가입하고 시작하기
           </button>
-          <button className="kakao-btn" onClick={login}>
-            카카오로 계속하기
-          </button>
+
+          <div style={{ marginTop: "18px", display: "grid", gap: "12px" }}>
+            <button
+              onClick={() => setPage("naverAuth")}
+              style={{
+                width: "100%",
+                height: "52px",
+                border: "none",
+                borderRadius: "4px",
+                background: "#03c75a",
+                color: "white",
+                fontSize: "17px",
+                fontWeight: "700",
+                cursor: "pointer"
+              }}
+            >
+              N &nbsp;&nbsp; 네이버 로그인
+            </button>
+
+            <button
+              onClick={() => setPage("kakaoAuth")}
+              style={{
+                width: "100%",
+                height: "52px",
+                border: "none",
+                borderRadius: "4px",
+                background: "#fee500",
+                color: "#191919",
+                fontSize: "17px",
+                fontWeight: "700",
+                cursor: "pointer"
+              }}
+            >
+              ● &nbsp;&nbsp; 카카오 로그인
+            </button>
+
+            <button
+              onClick={() => setPage("googleAuth")}
+              style={{
+                width: "100%",
+                height: "52px",
+                border: "1px solid #ddd",
+                borderRadius: "4px",
+                background: "white",
+                color: "#222",
+                fontSize: "17px",
+                fontWeight: "700",
+                cursor: "pointer"
+              }}
+            >
+              G &nbsp;&nbsp; Google 로그인
+            </button>
+          </div>
         </div>
       </section>
+    </main>
+  );
+}
+
+function NaverAuth({ setPage, setIsLoggedIn, setUserId }) {
+  const [id, setId] = useState("");
+  const [pw, setPw] = useState("");
+
+  const login = () => {
+    if (!id.trim()) return;
+    setUserId(id);
+    setIsLoggedIn(true);
+    setPage("home");
+  };
+
+  return (
+    <main style={{ minHeight: "100vh", background: "#f5f6f7", padding: "40px 20px" }}>
+      <div style={{ maxWidth: "420px", margin: "0 auto", textAlign: "center" }}>
+        <button
+          onClick={() => setPage("auth")}
+          style={{
+            float: "left",
+            border: "none",
+            background: "transparent",
+            cursor: "pointer",
+            fontSize: "14px"
+          }}
+        >
+          ← 뒤로
+        </button>
+
+        <h1 style={{ color: "#03c75a", fontSize: "44px", margin: "60px 0 30px" }}>
+          NAVER
+        </h1>
+
+        <div
+          style={{
+            background: "white",
+            border: "1px solid #ddd",
+            borderRadius: "8px",
+            overflow: "hidden",
+            textAlign: "left"
+          }}
+        >
+          <div style={{ display: "flex", borderBottom: "1px solid #eee" }}>
+            <button style={{ flex: 1, padding: "14px", border: "none", background: "white" }}>
+              ID 로그인
+            </button>
+            <button style={{ flex: 1, padding: "14px", border: "none", background: "#fafafa" }}>
+              일회용 번호
+            </button>
+            <button style={{ flex: 1, padding: "14px", border: "none", background: "#fafafa" }}>
+              QR코드
+            </button>
+          </div>
+
+          <div style={{ padding: "24px" }}>
+            <p style={{ fontSize: "13px", color: "#555", textAlign: "center", lineHeight: 1.6 }}>
+              네이버에 로그인하여 PASSTO 서비스를 이용하실 수 있습니다.
+            </p>
+
+            <input
+              value={id}
+              onChange={(e) => setId(e.target.value)}
+              placeholder="아이디"
+              style={{
+                width: "100%",
+                height: "48px",
+                border: "1px solid #03c75a",
+                padding: "0 14px",
+                fontSize: "15px",
+                boxSizing: "border-box",
+                marginTop: "16px"
+              }}
+            />
+            <input
+              value={pw}
+              onChange={(e) => setPw(e.target.value)}
+              placeholder="비밀번호"
+              type="password"
+              style={{
+                width: "100%",
+                height: "48px",
+                border: "1px solid #ddd",
+                padding: "0 14px",
+                fontSize: "15px",
+                boxSizing: "border-box"
+              }}
+            />
+
+            <div style={{ fontSize: "13px", color: "#777", margin: "12px 0" }}>
+              ⭕ 로그인 상태 유지
+            </div>
+
+            <button
+              onClick={login}
+              style={{
+                width: "100%",
+                height: "52px",
+                border: "none",
+                borderRadius: "6px",
+                background: "#03c75a",
+                color: "white",
+                fontSize: "17px",
+                fontWeight: "700",
+                cursor: "pointer"
+              }}
+            >
+              로그인
+            </button>
+          </div>
+        </div>
+
+        <div style={{ marginTop: "18px", fontSize: "13px", color: "#777" }}>
+          비밀번호 찾기 &nbsp; | &nbsp; 아이디 찾기 &nbsp; | &nbsp; 회원가입
+        </div>
+      </div>
+    </main>
+  );
+}
+
+function KakaoAuth({ setPage, setIsLoggedIn, setUserId }) {
+  const [id, setId] = useState("");
+  const [pw, setPw] = useState("");
+
+  const login = () => {
+    if (!id.trim()) return;
+    setUserId(id);
+    setIsLoggedIn(true);
+    setPage("home");
+  };
+
+  return (
+    <main style={{ minHeight: "100vh", background: "white", padding: "40px 20px" }}>
+      <div style={{ maxWidth: "420px", margin: "0 auto" }}>
+        <button
+          onClick={() => setPage("auth")}
+          style={{
+            border: "none",
+            background: "transparent",
+            cursor: "pointer",
+            fontSize: "14px",
+            marginBottom: "40px"
+          }}
+        >
+          ← 뒤로
+        </button>
+
+        <h1 style={{ textAlign: "center", fontSize: "40px", fontWeight: "400", marginBottom: "40px" }}>
+          kakao
+        </h1>
+
+        <input
+          value={id}
+          onChange={(e) => setId(e.target.value)}
+          placeholder="카카오메일 아이디, 이메일, 전화번호"
+          style={{
+            width: "100%",
+            height: "54px",
+            border: "none",
+            borderBottom: "1px solid #ddd",
+            fontSize: "16px",
+            boxSizing: "border-box",
+            outline: "none"
+          }}
+        />
+        <input
+          value={pw}
+          onChange={(e) => setPw(e.target.value)}
+          placeholder="비밀번호"
+          type="password"
+          style={{
+            width: "100%",
+            height: "54px",
+            border: "none",
+            borderBottom: "1px solid #ddd",
+            fontSize: "16px",
+            boxSizing: "border-box",
+            outline: "none"
+          }}
+        />
+
+        <div style={{ margin: "20px 0", color: "#333", fontSize: "14px" }}>
+          ⭕ 로그인 상태 유지
+        </div>
+
+        <button
+          onClick={login}
+          style={{
+            width: "100%",
+            height: "52px",
+            border: "none",
+            borderRadius: "4px",
+            background: "#fee500",
+            fontSize: "16px",
+            cursor: "pointer"
+          }}
+        >
+          로그인
+        </button>
+
+        <div style={{ display: "flex", alignItems: "center", gap: "12px", margin: "22px 0" }}>
+          <hr style={{ flex: 1, border: "none", borderTop: "1px solid #eee" }} />
+          <span style={{ color: "#aaa", fontSize: "13px" }}>또는</span>
+          <hr style={{ flex: 1, border: "none", borderTop: "1px solid #eee" }} />
+        </div>
+
+        <button
+          style={{
+            width: "100%",
+            height: "52px",
+            border: "none",
+            borderRadius: "4px",
+            background: "#f5f5f5",
+            fontSize: "16px"
+          }}
+        >
+          ▦ &nbsp; QR코드 로그인
+        </button>
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: "28px",
+            fontSize: "13px",
+            color: "#555"
+          }}
+        >
+          <span>회원가입</span>
+          <span>카카오계정 &nbsp; | &nbsp; 비밀번호 찾기</span>
+        </div>
+      </div>
+    </main>
+  );
+}
+
+function GoogleAuth({ setPage, setIsLoggedIn, setUserId }) {
+  const [email, setEmail] = useState("");
+
+  const login = () => {
+    if (!email.trim()) return;
+    setUserId(email);
+    setIsLoggedIn(true);
+    setPage("home");
+  };
+
+  return (
+    <main
+      style={{
+        minHeight: "100vh",
+        background: "#eef5fb",
+        padding: "90px 40px",
+        boxSizing: "border-box"
+      }}
+    >
+      <button
+        onClick={() => setPage("auth")}
+        style={{
+          border: "none",
+          background: "transparent",
+          cursor: "pointer",
+          fontSize: "14px",
+          marginBottom: "30px"
+        }}
+      >
+        ← 뒤로
+      </button>
+
+      <div
+        style={{
+          maxWidth: "980px",
+          margin: "0 auto",
+          background: "white",
+          borderRadius: "28px",
+          padding: "46px",
+          display: "grid",
+          gridTemplateColumns: "1fr 1.2fr",
+          gap: "40px"
+        }}
+      >
+        <div>
+          <div style={{ fontSize: "44px", fontWeight: "700", marginBottom: "34px" }}>
+            <span style={{ color: "#4285f4" }}>G</span>
+            <span style={{ color: "#ea4335" }}>o</span>
+            <span style={{ color: "#fbbc05" }}>o</span>
+            <span style={{ color: "#4285f4" }}>g</span>
+            <span style={{ color: "#34a853" }}>l</span>
+            <span style={{ color: "#ea4335" }}>e</span>
+          </div>
+
+          <h1 style={{ fontSize: "46px", fontWeight: "400", margin: "0 0 18px" }}>
+            Sign in
+          </h1>
+          <p style={{ fontSize: "18px" }}>Use your Google Account</p>
+        </div>
+
+        <div>
+          <input
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email or phone"
+            style={{
+              width: "100%",
+              height: "58px",
+              border: "1px solid #777",
+              borderRadius: "4px",
+              padding: "0 16px",
+              fontSize: "17px",
+              boxSizing: "border-box",
+              marginTop: "68px"
+            }}
+          />
+
+          <p style={{ color: "#0b57d0", fontWeight: "600", marginTop: "12px" }}>
+            Forgot email?
+          </p>
+
+          <p style={{ color: "#555", lineHeight: 1.6, marginTop: "46px" }}>
+            Not your computer? Use Guest mode to sign in privately.
+            <span style={{ color: "#0b57d0", fontWeight: "600" }}> Learn more</span>
+          </p>
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+              gap: "28px",
+              marginTop: "46px"
+            }}
+          >
+            <button
+              style={{
+                border: "none",
+                background: "white",
+                color: "#0b57d0",
+                fontWeight: "700",
+                fontSize: "15px"
+              }}
+            >
+              Create account
+            </button>
+            <button
+              onClick={login}
+              style={{
+                width: "92px",
+                height: "46px",
+                border: "none",
+                borderRadius: "24px",
+                background: "#0b57d0",
+                color: "white",
+                fontWeight: "700",
+                cursor: "pointer"
+              }}
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      </div>
     </main>
   );
 }
@@ -366,22 +777,13 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
 
       <section className="product-tabs-wrap">
         <div className="product-tabs">
-          <button
-            className={tab === "detail" ? "active" : ""}
-            onClick={() => setTab("detail")}
-          >
+          <button className={tab === "detail" ? "active" : ""} onClick={() => setTab("detail")}>
             상품상세
           </button>
-          <button
-            className={tab === "review" ? "active" : ""}
-            onClick={() => setTab("review")}
-          >
+          <button className={tab === "review" ? "active" : ""} onClick={() => setTab("review")}>
             상품평 ({reviews.length})
           </button>
-          <button
-            className={tab === "qna" ? "active" : ""}
-            onClick={() => setTab("qna")}
-          >
+          <button className={tab === "qna" ? "active" : ""} onClick={() => setTab("qna")}>
             상품문의
           </button>
           <button
@@ -410,17 +812,13 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
                     110V 어댑터, 동전지갑, QR 가이드
                   </td>
                   <th>사용방법</th>
-                  <td>
-                    QR 가이드를 통해 기내 반입 가능 여부와 체크리스트를 확인하세요.
-                  </td>
+                  <td>QR 가이드를 통해 기내 반입 가능 여부와 체크리스트를 확인하세요.</td>
                 </tr>
                 <tr>
                   <th>제조국</th>
                   <td>대한민국 / 일부 구성품 OEM</td>
                   <th>주의사항</th>
-                  <td>
-                    항공사 및 국가별 규정은 변경될 수 있으므로 출국 전 확인을 권장합니다.
-                  </td>
+                  <td>항공사 및 국가별 규정은 변경될 수 있으므로 출국 전 확인을 권장합니다.</td>
                 </tr>
               </tbody>
             </table>
@@ -829,6 +1227,36 @@ export default function App() {
         setPage={setPage}
         setIsLoggedIn={setIsLoggedIn}
         userId={userId}
+        setUserId={setUserId}
+      />
+    );
+  }
+
+  if (page === "naverAuth") {
+    return (
+      <NaverAuth
+        setPage={setPage}
+        setIsLoggedIn={setIsLoggedIn}
+        setUserId={setUserId}
+      />
+    );
+  }
+
+  if (page === "kakaoAuth") {
+    return (
+      <KakaoAuth
+        setPage={setPage}
+        setIsLoggedIn={setIsLoggedIn}
+        setUserId={setUserId}
+      />
+    );
+  }
+
+  if (page === "googleAuth") {
+    return (
+      <GoogleAuth
+        setPage={setPage}
+        setIsLoggedIn={setIsLoggedIn}
         setUserId={setUserId}
       />
     );
