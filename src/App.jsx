@@ -9,18 +9,22 @@ import {
   Plus,
   Minus,
   Plane,
-  QrCode,
-  ShieldCheck,
-  Package,
   CreditCard
 } from "lucide-react";
 
 const PRODUCT_PRICE = 39800;
+const QR_LINK =
+  "https://claude.ai/public/artifacts/c259cd38-f8cb-49c2-bf99-9c378c00d1c8";
 
-function Header({ setPage, isLoggedIn, userId }) {
+function Header({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
   const goProtected = (target) => {
     if (!isLoggedIn) setPage("auth");
     else setPage(target);
+  };
+
+  const logout = () => {
+    setIsLoggedIn(false);
+    setPage("intro");
   };
 
   return (
@@ -34,13 +38,13 @@ function Header({ setPage, isLoggedIn, userId }) {
         <button onClick={() => goProtected("home")}>HOME</button>
         <button onClick={() => goProtected("vas")}>VAS</button>
         <button onClick={() => goProtected("home")}>SHOP</button>
-        <button onClick={() => goProtected("guide")}>COMMUNITY</button>
+        <button onClick={() => goProtected("orders")}>ORDERS</button>
       </nav>
 
       {isLoggedIn ? (
         <div className="login-state">
           <span>{userId}님</span>
-          <button onClick={() => setPage("home")}>LOGIN</button>
+          <button onClick={logout}>LOGOUT</button>
         </div>
       ) : (
         <button className="login-mini" onClick={() => setPage("auth")}>
@@ -56,10 +60,15 @@ function Header({ setPage, isLoggedIn, userId }) {
   );
 }
 
-function Intro({ setPage, isLoggedIn, userId }) {
+function Intro({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
   return (
     <main>
-      <Header setPage={setPage} isLoggedIn={isLoggedIn} userId={userId} />
+      <Header
+        setPage={setPage}
+        isLoggedIn={isLoggedIn}
+        userId={userId}
+        setIsLoggedIn={setIsLoggedIn}
+      />
 
       <section className="intro-hero">
         <div className="intro-overlay">
@@ -93,7 +102,12 @@ function Auth({ setPage, setIsLoggedIn, userId, setUserId }) {
 
   return (
     <main>
-      <Header setPage={setPage} isLoggedIn={false} userId={userId} />
+      <Header
+        setPage={setPage}
+        isLoggedIn={false}
+        userId={userId}
+        setIsLoggedIn={setIsLoggedIn}
+      />
 
       <section className="auth-page">
         <div className="auth-card">
@@ -123,7 +137,7 @@ function Auth({ setPage, setIsLoggedIn, userId, setUserId }) {
   );
 }
 
-function Home({ setPage, isLoggedIn, userId }) {
+function Home({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
   const [keyword, setKeyword] = useState("");
   const [searched, setSearched] = useState(false);
 
@@ -142,32 +156,45 @@ function Home({ setPage, isLoggedIn, userId }) {
 
   return (
     <main>
-      <Header setPage={setPage} isLoggedIn={isLoggedIn} userId={userId} />
+      <Header
+        setPage={setPage}
+        isLoggedIn={isLoggedIn}
+        userId={userId}
+        setIsLoggedIn={setIsLoggedIn}
+      />
 
-      <section className="home-hero">
-        <div className="home-copy">
-          <p className="eyebrow">{userId}님, 여행 준비를 시작해볼까요?</p>
-          <h1>
-            여행할 나라를 검색하면
-            <br />
-            맞춤 키트를 추천합니다.
-          </h1>
-          <p>현재 MVP에서는 일본 여행 키트를 중심으로 제공합니다.</p>
+      <section className="home-airport-hero">
+        <div className="home-airport-overlay">
+          <div className="home-airport-copy">
+            <p className="home-user-text">
+              {userId}님, 여행 준비를 시작해볼까요?
+            </p>
 
-          <div className="search-area">
-            <Search size={22} />
-            <input
-              value={keyword}
-              onChange={(e) => {
-                setKeyword(e.target.value);
-                setSearched(false);
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") handleSearch();
-              }}
-              placeholder="예: 일본, Japan, 도쿄"
-            />
-            <button onClick={handleSearch}>검색</button>
+            <h1>
+              여행할 나라를 검색하면
+              <br />
+              맞춤 키트를 추천합니다.
+            </h1>
+
+            <p className="home-sub-text">
+              현재 MVP에서는 일본 여행 키트를 중심으로 제공합니다.
+            </p>
+
+            <div className="airport-search-area">
+              <Search size={26} />
+              <input
+                value={keyword}
+                onChange={(e) => {
+                  setKeyword(e.target.value);
+                  setSearched(false);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") handleSearch();
+                }}
+                placeholder="예: 일본, Japan, 도쿄"
+              />
+              <button onClick={handleSearch}>검색</button>
+            </div>
           </div>
         </div>
       </section>
@@ -265,22 +292,15 @@ function AboutSection() {
   );
 }
 
-function Detail({ setPage, isLoggedIn, userId }) {
+function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
   const [tab, setTab] = useState("detail");
-
   const [rating, setRating] = useState("5");
   const [review, setReview] = useState("");
   const [question, setQuestion] = useState("");
 
   const [reviews, setReviews] = useState([
-    {
-      rating: "5",
-      text: "일본 처음 가는데 준비물이 한 번에 정리돼서 좋았어요."
-    },
-    {
-      rating: "4",
-      text: "QR 가이드가 있어서 공항에서 확인하기 편했습니다."
-    }
+    { rating: "5", text: "일본 처음 가는데 준비물이 한 번에 정리돼서 좋았어요." },
+    { rating: "4", text: "QR 가이드가 있어서 공항에서 확인하기 편했습니다." }
   ]);
 
   const [questions, setQuestions] = useState([
@@ -305,7 +325,12 @@ function Detail({ setPage, isLoggedIn, userId }) {
 
   return (
     <main>
-      <Header setPage={setPage} isLoggedIn={isLoggedIn} userId={userId} />
+      <Header
+        setPage={setPage}
+        isLoggedIn={isLoggedIn}
+        userId={userId}
+        setIsLoggedIn={setIsLoggedIn}
+      />
 
       <section className="detail-page">
         <div className="detail-img">🎒</div>
@@ -331,22 +356,13 @@ function Detail({ setPage, isLoggedIn, userId }) {
 
       <section className="product-tabs-wrap">
         <div className="product-tabs">
-          <button
-            className={tab === "detail" ? "active" : ""}
-            onClick={() => setTab("detail")}
-          >
+          <button className={tab === "detail" ? "active" : ""} onClick={() => setTab("detail")}>
             상품상세
           </button>
-          <button
-            className={tab === "review" ? "active" : ""}
-            onClick={() => setTab("review")}
-          >
+          <button className={tab === "review" ? "active" : ""} onClick={() => setTab("review")}>
             상품평 ({reviews.length})
           </button>
-          <button
-            className={tab === "qna" ? "active" : ""}
-            onClick={() => setTab("qna")}
-          >
+          <button className={tab === "qna" ? "active" : ""} onClick={() => setTab("qna")}>
             상품문의
           </button>
           <button
@@ -360,7 +376,6 @@ function Detail({ setPage, isLoggedIn, userId }) {
         {tab === "detail" && (
           <div className="tab-content">
             <h2>필수 표기 정보</h2>
-
             <table className="info-table">
               <tbody>
                 <tr>
@@ -376,19 +391,13 @@ function Detail({ setPage, isLoggedIn, userId }) {
                     110V 어댑터, 동전지갑, QR 가이드
                   </td>
                   <th>사용방법</th>
-                  <td>
-                    QR 가이드를 통해 기내 반입 가능 여부와 일본 여행
-                    체크리스트를 확인하세요.
-                  </td>
+                  <td>QR 가이드를 통해 기내 반입 가능 여부와 체크리스트를 확인하세요.</td>
                 </tr>
                 <tr>
                   <th>제조국</th>
                   <td>대한민국 / 일부 구성품 OEM</td>
                   <th>주의사항</th>
-                  <td>
-                    항공사 및 국가별 규정은 변경될 수 있으므로 출국 전
-                    QR 가이드 확인을 권장합니다.
-                  </td>
+                  <td>항공사 및 국가별 규정은 변경될 수 있으므로 출국 전 확인을 권장합니다.</td>
                 </tr>
               </tbody>
             </table>
@@ -444,7 +453,6 @@ function Detail({ setPage, isLoggedIn, userId }) {
                 onChange={(e) => setQuestion(e.target.value)}
                 placeholder="상품에 대해 궁금한 점을 작성해주세요."
               />
-
               <button className="primary-btn" onClick={submitQuestion}>
                 문의 등록
               </button>
@@ -477,7 +485,6 @@ function Detail({ setPage, isLoggedIn, userId }) {
                   <th>배송기간</th>
                   <td colSpan="3">
                     주문 및 결제 완료 후 1~3일 이내 도착 예정입니다.
-                    물량 수급에 따라 지연될 수 있습니다.
                   </td>
                 </tr>
               </tbody>
@@ -497,10 +504,7 @@ function Detail({ setPage, isLoggedIn, userId }) {
                 </tr>
                 <tr>
                   <th>제한사항</th>
-                  <td>
-                    상품 개봉, 구성품 분실, 사용 흔적이 있는 경우
-                    교환/반품이 제한될 수 있습니다.
-                  </td>
+                  <td>상품 개봉, 구성품 분실, 사용 흔적이 있는 경우 제한될 수 있습니다.</td>
                 </tr>
               </tbody>
             </table>
@@ -513,13 +517,18 @@ function Detail({ setPage, isLoggedIn, userId }) {
   );
 }
 
-function Cart({ setPage, isLoggedIn, userId }) {
+function Cart({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
   const [qty, setQty] = useState(1);
   const total = PRODUCT_PRICE * qty;
 
   return (
     <main>
-      <Header setPage={setPage} isLoggedIn={isLoggedIn} userId={userId} />
+      <Header
+        setPage={setPage}
+        isLoggedIn={isLoggedIn}
+        userId={userId}
+        setIsLoggedIn={setIsLoggedIn}
+      />
 
       <section className="cart-page">
         <h1>장바구니</h1>
@@ -554,10 +563,6 @@ function Cart({ setPage, isLoggedIn, userId }) {
               <span>배송비</span>
               <strong>무료</strong>
             </p>
-            <p>
-              <span>QR 가이드</span>
-              <strong>무료</strong>
-            </p>
             <hr />
             <p className="total">
               <span>결제 예정 금액</span>
@@ -576,10 +581,15 @@ function Cart({ setPage, isLoggedIn, userId }) {
   );
 }
 
-function Checkout({ setPage, isLoggedIn, userId }) {
+function Checkout({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
   return (
     <main>
-      <Header setPage={setPage} isLoggedIn={isLoggedIn} userId={userId} />
+      <Header
+        setPage={setPage}
+        isLoggedIn={isLoggedIn}
+        userId={userId}
+        setIsLoggedIn={setIsLoggedIn}
+      />
 
       <section className="checkout-page">
         <h1>결제</h1>
@@ -624,10 +634,15 @@ function Checkout({ setPage, isLoggedIn, userId }) {
   );
 }
 
-function Complete({ setPage, isLoggedIn, userId }) {
+function Complete({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
   return (
     <main>
-      <Header setPage={setPage} isLoggedIn={isLoggedIn} userId={userId} />
+      <Header
+        setPage={setPage}
+        isLoggedIn={isLoggedIn}
+        userId={userId}
+        setIsLoggedIn={setIsLoggedIn}
+      />
 
       <section className="complete-page">
         <CheckCircle size={90} />
@@ -637,9 +652,15 @@ function Complete({ setPage, isLoggedIn, userId }) {
           <br />
           QR 가이드와 함께 일본 여행을 준비해보세요.
         </p>
-        <button className="primary-btn" onClick={() => setPage("guide")}>
+
+        <a
+          href={QR_LINK}
+          target="_blank"
+          rel="noreferrer"
+          className="primary-btn external-link-btn"
+        >
           QR 가이드 보기
-        </button>
+        </a>
       </section>
 
       <Footer />
@@ -647,40 +668,15 @@ function Complete({ setPage, isLoggedIn, userId }) {
   );
 }
 
-function Guide({ setPage, isLoggedIn, userId }) {
+function Vas({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
   return (
     <main>
-      <Header setPage={setPage} isLoggedIn={isLoggedIn} userId={userId} />
-
-      <section className="guide-page">
-        <p className="eyebrow">QR GUIDE</p>
-        <h1>일본 여행 QR 가이드</h1>
-
-        <div className="guide-grid">
-          <div>
-            <h3>✅ 기내 반입 가능</h3>
-            <p>100ml 이하 액체류, 지퍼백 1개</p>
-          </div>
-          <div>
-            <h3>⚠️ 주의</h3>
-            <p>보조배터리는 기내 반입 기준 확인</p>
-          </div>
-          <div>
-            <h3>❌ 금지</h3>
-            <p>날카로운 물건, 허용되지 않은 액체류</p>
-          </div>
-        </div>
-      </section>
-
-      <Footer />
-    </main>
-  );
-}
-
-function Vas({ setPage, isLoggedIn, userId }) {
-  return (
-    <main>
-      <Header setPage={setPage} isLoggedIn={isLoggedIn} userId={userId} />
+      <Header
+        setPage={setPage}
+        isLoggedIn={isLoggedIn}
+        userId={userId}
+        setIsLoggedIn={setIsLoggedIn}
+      />
 
       <section className="guide-page">
         <p className="eyebrow">VAS</p>
@@ -691,11 +687,7 @@ function Vas({ setPage, isLoggedIn, userId }) {
         </p>
 
         <div className="guide-grid">
-          <a
-            href="https://claude.ai/public/artifacts/c259cd38-f8cb-49c2-bf99-9c378c00d1c8"
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a href={QR_LINK} target="_blank" rel="noreferrer">
             <h3>QR 코드 가이드</h3>
             <p>여행 준비 체크리스트와 키트 사용 정보를 확인할 수 있습니다.</p>
           </a>
@@ -721,6 +713,44 @@ function Vas({ setPage, isLoggedIn, userId }) {
   );
 }
 
+function Orders({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
+  return (
+    <main>
+      <Header
+        setPage={setPage}
+        isLoggedIn={isLoggedIn}
+        userId={userId}
+        setIsLoggedIn={setIsLoggedIn}
+      />
+
+      <section className="guide-page">
+        <p className="eyebrow">ORDER HISTORY</p>
+        <h1>결제 내역 확인</h1>
+
+        <div className="review-list">
+          <div>
+            <strong>결제 상품 : 일본 여행 키트</strong>
+            <p>결제 시간 : 2026-05-08 01:45</p>
+            <p>결제 금액 : ₩39,800</p>
+          </div>
+        </div>
+
+        <div className="delivery-status-box">
+          <h2>배송 진행 상태</h2>
+          <div className="delivery-placeholder">배송 상태 이미지 영역</div>
+          <p>
+            나중에 이미지 업로드 시
+            <br />
+            배송 현황 이미지가 표시됩니다.
+          </p>
+        </div>
+      </section>
+
+      <Footer />
+    </main>
+  );
+}
+
 function Footer() {
   return (
     <footer className="footer">
@@ -728,7 +758,7 @@ function Footer() {
         <span>HOME</span>
         <span>VAS</span>
         <span>SHOP</span>
-        <span>COMMUNITY</span>
+        <span>ORDERS</span>
       </div>
 
       <div className="footer-main">
@@ -737,9 +767,7 @@ function Footer() {
             <Plane size={24} />
             PASSTO
           </div>
-          <p>
-            고객센터 : 02-000-0000 &nbsp;&nbsp; 운영시간 : 평일 09:00 ~ 18:00
-          </p>
+          <p>고객센터 : 02-000-0000 &nbsp;&nbsp; 운영시간 : 평일 09:00 ~ 18:00</p>
           <p>
             상호명 : 패스토 &nbsp;&nbsp; 대표 : 이승훈 &nbsp;&nbsp;
             사업자등록번호 : 123-45-67890
@@ -765,7 +793,12 @@ export default function App() {
 
   if (page === "intro") {
     return (
-      <Intro setPage={setPage} isLoggedIn={isLoggedIn} userId={userId} />
+      <Intro
+        setPage={setPage}
+        isLoggedIn={isLoggedIn}
+        userId={userId}
+        setIsLoggedIn={setIsLoggedIn}
+      />
     );
   }
 
@@ -791,37 +824,20 @@ export default function App() {
     );
   }
 
-  if (page === "home") {
-    return <Home setPage={setPage} isLoggedIn={isLoggedIn} userId={userId} />;
-  }
+  const commonProps = {
+    setPage,
+    isLoggedIn,
+    userId,
+    setIsLoggedIn
+  };
 
-  if (page === "vas") {
-    return <Vas setPage={setPage} isLoggedIn={isLoggedIn} userId={userId} />;
-  }
+  if (page === "home") return <Home {...commonProps} />;
+  if (page === "vas") return <Vas {...commonProps} />;
+  if (page === "detail") return <Detail {...commonProps} />;
+  if (page === "cart") return <Cart {...commonProps} />;
+  if (page === "checkout") return <Checkout {...commonProps} />;
+  if (page === "complete") return <Complete {...commonProps} />;
+  if (page === "orders") return <Orders {...commonProps} />;
 
-  if (page === "detail") {
-    return <Detail setPage={setPage} isLoggedIn={isLoggedIn} userId={userId} />;
-  }
-
-  if (page === "cart") {
-    return <Cart setPage={setPage} isLoggedIn={isLoggedIn} userId={userId} />;
-  }
-
-  if (page === "checkout") {
-    return (
-      <Checkout setPage={setPage} isLoggedIn={isLoggedIn} userId={userId} />
-    );
-  }
-
-  if (page === "complete") {
-    return (
-      <Complete setPage={setPage} isLoggedIn={isLoggedIn} userId={userId} />
-    );
-  }
-
-  if (page === "guide") {
-    return <Guide setPage={setPage} isLoggedIn={isLoggedIn} userId={userId} />;
-  }
-
-  return <Home setPage={setPage} isLoggedIn={isLoggedIn} userId={userId} />;
+  return <Home {...commonProps} />;
 }
