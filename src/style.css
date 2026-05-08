@@ -732,3 +732,114 @@ p {
   border-color: #6c8ce6;
   transform: translateY(-3px);
 }
+.home-airport-hero {
+  min-height: 720px;
+  background-image: url("/airport-bg.png");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.home-airport-overlay {
+  min-height: 720px;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 51, 89, 0.62) 0%,
+    rgba(0, 77, 128, 0.35) 45%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  display: flex;
+  align-items: center;
+  padding: 0 7.5%;
+}
+
+.home-airport-copy {
+  max-width: 760px;
+  color: white;
+}
+
+.home-user-text,
+.home-sub-text {
+  color: white;
+  font-weight: 800;
+  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.45);
+}
+
+.home-user-text {
+  font-size: 20px;
+}
+
+.home-sub-text {
+  font-size: 18px;
+}
+
+.home-airport-copy h1 {
+  color: white;
+  font-size: 58px;
+  line-height: 1.18;
+  letter-spacing: -2px;
+  margin: 24px 0;
+  text-shadow: 0 5px 16px rgba(0, 0, 0, 0.55);
+}
+
+.airport-search-area {
+  width: 640px;
+  max-width: 100%;
+  height: 70px;
+  margin-top: 42px;
+  background: rgba(255, 255, 255, 0.96);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 14px 0 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.22);
+}
+
+.airport-search-area input {
+  flex: 1;
+  height: 100%;
+  border: none;
+  outline: none;
+  font-size: 17px;
+  background: transparent;
+}
+
+.airport-search-area button {
+  width: 124px;
+  height: 50px;
+  border: none;
+  background: #6c6fd6;
+  color: white;
+  font-weight: 900;
+}
+
+.external-link-btn {
+  text-decoration: none;
+  justify-content: center;
+}
+
+.delivery-status-box {
+  margin-top: 60px;
+  background: white;
+  padding: 40px;
+  border: 1px solid #e5e5e5;
+}
+
+.delivery-placeholder {
+  height: 240px;
+  border: 2px dashed #cfcfcf;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  margin: 30px 0;
+  background: #fafafa;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.login-state button {
+  background: #111;
+  color: white;
+  border: none;
+}
