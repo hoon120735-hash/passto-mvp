@@ -9,7 +9,8 @@ import {
   Plus,
   Minus,
   Plane,
-  CreditCard
+  CreditCard,
+  Heart
 } from "lucide-react";
 
 const PRODUCT_PRICE = 39800;
@@ -636,10 +637,6 @@ function Home({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
               맞춤 키트를 추천합니다.
             </h1>
 
-            <p className="home-sub-text">
-              현재 MVP에서는 일본 여행 키트를 중심으로 제공합니다.
-            </p>
-
             <div className="airport-search-area">
               <Search size={26} />
               <input
@@ -754,9 +751,19 @@ function AboutSection() {
 
 function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
   const [tab, setTab] = useState("detail");
+  const [liked, setLiked] = useState(false);
+  const [currentImage, setCurrentImage] = useState(0);
   const [rating, setRating] = useState("5");
   const [review, setReview] = useState("");
   const [question, setQuestion] = useState("");
+
+  const productImages = [
+    "/images/product1.jpg",
+    "/images/product2.jpg",
+    "/images/product3.jpg",
+    "/images/product4.jpg",
+    "/images/product5.jpg"
+  ];
 
   const [reviews, setReviews] = useState([
     { rating: "5", text: "일본 처음 가는데 준비물이 한 번에 정리돼서 좋았어요." },
@@ -793,7 +800,134 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
       />
 
       <section className="detail-page">
-        <div className="detail-img">🎒</div>
+        <div style={{ width: "100%", maxWidth: "640px" }}>
+          <div
+            style={{
+              width: "100%",
+              aspectRatio: "1 / 1",
+              background: "#f3f3f3",
+              borderRadius: "12px",
+              overflow: "hidden",
+              position: "relative"
+            }}
+          >
+            <img
+              src={productImages[currentImage]}
+              alt="상품 이미지"
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+                e.currentTarget.parentElement.style.display = "flex";
+                e.currentTarget.parentElement.style.alignItems = "center";
+                e.currentTarget.parentElement.style.justifyContent = "center";
+                e.currentTarget.parentElement.style.fontSize = "80px";
+                e.currentTarget.parentElement.textContent = "🎒";
+              }}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover"
+              }}
+            />
+
+            <div
+              style={{
+                position: "absolute",
+                right: "16px",
+                bottom: "16px",
+                background: "rgba(0,0,0,0.45)",
+                color: "white",
+                padding: "6px 12px",
+                borderRadius: "999px",
+                fontSize: "14px"
+              }}
+            >
+              {currentImage + 1}/{productImages.length}
+            </div>
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "10px",
+              marginTop: "18px"
+            }}
+          >
+            <button
+              onClick={() =>
+                setCurrentImage((prev) =>
+                  prev === 0 ? productImages.length - 1 : prev - 1
+                )
+              }
+              style={{
+                width: "56px",
+                height: "56px",
+                borderRadius: "12px",
+                border: "2px solid #111",
+                background: "white",
+                fontSize: "28px",
+                cursor: "pointer"
+              }}
+            >
+              ‹
+            </button>
+
+            <div style={{ display: "flex", gap: "10px" }}>
+              {productImages.map((img, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentImage(index)}
+                  style={{
+                    width: "70px",
+                    height: "70px",
+                    borderRadius: "10px",
+                    overflow: "hidden",
+                    border: currentImage === index ? "3px solid #111" : "1px solid #ddd",
+                    padding: 0,
+                    background: "#f3f3f3",
+                    cursor: "pointer",
+                    opacity: currentImage === index ? 1 : 0.5
+                  }}
+                >
+                  <img
+                    src={img}
+                    alt=""
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                      e.currentTarget.parentElement.textContent = "🎒";
+                      e.currentTarget.parentElement.style.fontSize = "24px";
+                    }}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover"
+                    }}
+                  />
+                </button>
+              ))}
+            </div>
+
+            <button
+              onClick={() =>
+                setCurrentImage((prev) =>
+                  prev === productImages.length - 1 ? 0 : prev + 1
+                )
+              }
+              style={{
+                width: "56px",
+                height: "56px",
+                borderRadius: "12px",
+                border: "2px solid #111",
+                background: "white",
+                fontSize: "28px",
+                cursor: "pointer"
+              }}
+            >
+              ›
+            </button>
+          </div>
+        </div>
 
         <div className="detail-info">
           <p className="badge">Japan Edition</p>
@@ -810,6 +944,35 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
 
           <button className="primary-btn" onClick={() => setPage("cart")}>
             장바구니 담기 <ShoppingBag size={18} />
+          </button>
+
+          <button
+            onClick={() => setLiked(!liked)}
+            style={{
+              width: "100%",
+              height: "72px",
+              borderRadius: "22px",
+              border: liked ? "4px solid #111" : "2px solid #d9d9d9",
+              background: "white",
+              marginTop: "18px",
+              fontSize: "24px",
+              fontWeight: "700",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "12px",
+              cursor: "pointer",
+              transition: "0.25s",
+              transform: liked ? "scale(1.02)" : "scale(1)"
+            }}
+          >
+            <Heart
+              size={34}
+              color={liked ? "#e4573d" : "black"}
+              fill={liked ? "#e4573d" : "transparent"}
+              strokeWidth={2.5}
+            />
+            {liked ? "찜 완료" : "찜하기"}
           </button>
         </div>
       </section>
@@ -1140,8 +1303,7 @@ function Checkout({ setPage, isLoggedIn, userId, setIsLoggedIn, setOrderHistory 
                 className="pay-option"
                 onClick={() => setPaymentMethod(method)}
                 style={{
-                  border:
-                    paymentMethod === method ? "2px solid #111" : "1px solid #ddd",
+                  border: paymentMethod === method ? "2px solid #111" : "1px solid #ddd",
                   background: paymentMethod === method ? "#fff7e6" : "white",
                   fontWeight: paymentMethod === method ? "700" : "400",
                   transform: paymentMethod === method ? "scale(1.02)" : "scale(1)",
@@ -1331,7 +1493,7 @@ function Footer() {
           </div>
           <p>고객센터 : 02-000-0000 &nbsp;&nbsp; 운영시간 : 평일 09:00 ~ 18:00</p>
           <p>
-            상호명 : 패스토 &nbsp;&nbsp; 대표 : 이승훈 &nbsp;&nbsp;
+            상호명 : 패스토 &nbsp;&nbsp; 대표 : 코룡이 &nbsp;&nbsp;
             사업자등록번호 : 123-45-67890
           </p>
           <p>주소 : 충청남도 천안시</p>
