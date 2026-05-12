@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   Search,
   ShoppingBag,
@@ -753,9 +753,16 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
   const [tab, setTab] = useState("detail");
   const [liked, setLiked] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
+  const [detailOpen, setDetailOpen] = useState(false);
   const [rating, setRating] = useState("5");
   const [review, setReview] = useState("");
   const [question, setQuestion] = useState("");
+
+  const productTopRef = useRef(null);
+
+  const scrollToProductTop = () => {
+    productTopRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   const productImages = [
     "/images/product1.jpg",
@@ -790,6 +797,27 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
     setQuestion("");
   };
 
+  const detailImageBox = (text) => (
+    <div
+      style={{
+        width: "100%",
+        minHeight: "420px",
+        borderRadius: "18px",
+        background: "#f5f5f5",
+        border: "1px dashed #ccc",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: "24px",
+        color: "#999",
+        fontSize: "22px",
+        fontWeight: "700"
+      }}
+    >
+      {text}
+    </div>
+  );
+
   return (
     <main>
       <Header
@@ -799,7 +827,7 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
         setIsLoggedIn={setIsLoggedIn}
       />
 
-      <section className="detail-page">
+      <section className="detail-page" ref={productTopRef}>
         <div style={{ width: "100%", maxWidth: "640px" }}>
           <div
             style={{
@@ -942,8 +970,51 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
             <del>₩52,700</del>
           </div>
 
-          <button className="primary-btn" onClick={() => setPage("cart")}>
-            장바구니 담기 <ShoppingBag size={18} />
+          <button
+            onClick={() => setPage("checkout")}
+            style={{
+              width: "100%",
+              height: "72px",
+              borderRadius: "22px",
+              border: "4px solid #111",
+              background: "white",
+              marginTop: "18px",
+              fontSize: "24px",
+              fontWeight: "700",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "12px",
+              cursor: "pointer",
+              transition: "0.25s"
+            }}
+          >
+            결제하기 <CreditCard size={28} />
+          </button>
+
+          <button
+            onClick={() => {
+              alert("상품이 장바구니에 담겼습니다.");
+              setPage("cart");
+            }}
+            style={{
+              width: "100%",
+              height: "72px",
+              borderRadius: "22px",
+              border: "2px solid #d9d9d9",
+              background: "white",
+              marginTop: "14px",
+              fontSize: "24px",
+              fontWeight: "700",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "12px",
+              cursor: "pointer",
+              transition: "0.25s"
+            }}
+          >
+            장바구니 담기 <ShoppingBag size={28} />
           </button>
 
           <button
@@ -954,7 +1025,7 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
               borderRadius: "22px",
               border: liked ? "4px solid #111" : "2px solid #d9d9d9",
               background: "white",
-              marginTop: "18px",
+              marginTop: "14px",
               fontSize: "24px",
               fontWeight: "700",
               display: "flex",
@@ -998,6 +1069,80 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
 
         {tab === "detail" && (
           <div className="tab-content">
+            <div
+              style={{
+                maxHeight: detailOpen ? "none" : "520px",
+                overflow: detailOpen ? "visible" : "hidden",
+                position: "relative",
+                marginBottom: "40px"
+              }}
+            >
+              {detailImageBox("상품상세 이미지 1 영역")}
+              {detailImageBox("상품상세 이미지 2 영역")}
+              {detailImageBox("상품상세 이미지 3 영역")}
+              {detailImageBox("상품상세 이미지 4 영역")}
+
+              {!detailOpen && (
+                <div
+                  style={{
+                    position: "absolute",
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    height: "160px",
+                    background: "linear-gradient(transparent, white)"
+                  }}
+                />
+              )}
+            </div>
+
+            {!detailOpen ? (
+              <button
+                onClick={() => setDetailOpen(true)}
+                style={{
+                  width: "520px",
+                  maxWidth: "100%",
+                  height: "78px",
+                  borderRadius: "8px",
+                  border: "2px solid #5a63ff",
+                  background: "white",
+                  color: "#5a63ff",
+                  fontSize: "30px",
+                  fontWeight: "800",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: "12px",
+                  margin: "0 auto 50px",
+                  cursor: "pointer"
+                }}
+              >
+                상품정보 더보기⌄
+              </button>
+            ) : (
+              <button
+                onClick={scrollToProductTop}
+                style={{
+                  width: "520px",
+                  maxWidth: "100%",
+                  height: "78px",
+                  borderRadius: "12px",
+                  border: "4px solid #111",
+                  background: "white",
+                  color: "#111",
+                  fontSize: "28px",
+                  fontWeight: "800",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  margin: "30px auto 50px",
+                  cursor: "pointer"
+                }}
+              >
+                지금 바로 챙겨가세요
+              </button>
+            )}
+
             <h2>필수 표기 정보</h2>
             <table className="info-table">
               <tbody>
