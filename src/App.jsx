@@ -20,6 +20,88 @@ const QR_LINK =
 
 const HOME_BG_IMAGE = "/images/airport-bg.jpg";
 
+
+function normalizePaymentMethod(method) {
+  if (method === "카카오페이") return "kakao_pay";
+  if (method === "신용카드") return "card";
+  if (method === "무통장입금") return "bank_transfer";
+  return method || "unknown";
+}
+
+async function saveSessionLog({ userId, pagePath, durationSeconds = 0 }) {
+  const { error } = await supabase.from("user_sessions").insert({
+    user_email: userId || "guest",
+    page_path: pagePath,
+    duration_seconds: Math.max(0, Math.round(durationSeconds))
+  });
+
+  if (error) {
+    console.error("Supabase user_sessions 저장 실패:", error);
+  }
+}
+
+async function saveOrderToSupabase({ userId, paymentMethod }) {
+  const paymentCode = normalizePaymentMethod(paymentMethod);
+
+  const { data: order, error: orderError } = await supabase
+    .from("orders")
+    .insert({
+      user_name: userId || "guest",
+      user_email: userId || "guest",
+      total_amount: PRODUCT_PRICE,
+      status: "paid"
+    })
+    .select()
+    .single();
+
+  if (orderError) {
+    throw orderError;
+  }
+
+  const { data: product, error: productError } = await supabase
+    .from("products")
+    .select("id, price")
+    .eq("is_active", true)
+    .limit(1)
+    .maybeSingle();
+
+  if (productError) {
+    console.error("Supabase products 조회 실패:", productError);
+  }
+
+  const orderItemPayload = {
+    order_id: order.id,
+    quantity: 1,
+    price: product?.price || PRODUCT_PRICE
+  };
+
+  if (product?.id) {
+    orderItemPayload.product_id = product.id;
+  }
+
+  const { error: orderItemError } = await supabase
+    .from("order_items")
+    .insert(orderItemPayload);
+
+  if (orderItemError) {
+    throw orderItemError;
+  }
+
+  const { error: paymentError } = await supabase.from("payments").insert({
+    order_id: order.id,
+    payment_method: paymentCode,
+    payment_status: "paid",
+    paid_amount: PRODUCT_PRICE,
+    paid_at: new Date().toISOString()
+  });
+
+  if (paymentError) {
+    throw paymentError;
+  }
+
+  return order;
+}
+
 function Header({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
   const goProtected = (target) => {
     if (!isLoggedIn) setPage("auth");
@@ -594,25 +676,6 @@ function GoogleAuth({ setPage, setIsLoggedIn, setUserId }) {
 function Home({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
   const [keyword, setKeyword] = useState("");
   const [searched, setSearched] = useState(false);
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  async function fetchProducts() {
-    const { data, error } = await supabase
-      .from("products")
-      .select("*")
-      .eq("is_active", true);
-
-    if (error) {
-      console.error("Supabase products error:", error);
-      return;
-    }
-
-    setProducts(data || []);
-  }
 
   const value = keyword.trim().toLowerCase();
 
@@ -722,70 +785,6 @@ function Home({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
           </button>
         </section>
       )}
-
-      <section className="result-section">
-        <p className="eyebrow">SUPABASE PRODUCTS</p>
-        <h2>DB에서 불러온 상품</h2>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
-            gap: "20px",
-            marginTop: "30px"
-          }}
-        >
-          {products.length === 0 ? (
-            <div
-              style={{
-                border: "1px solid #eee",
-                borderRadius: "20px",
-                padding: "24px",
-                background: "white",
-                color: "#666"
-              }}
-            >
-              Supabase에 등록된 상품이 없거나 아직 불러오는 중입니다.
-            </div>
-          ) : (
-            products.map((product) => (
-              <div
-                key={product.id}
-                style={{
-                  border: "1px solid #eee",
-                  borderRadius: "20px",
-                  padding: "24px",
-                  background: "white"
-                }}
-              >
-                <h3>{product.name}</h3>
-
-                <p style={{ marginTop: "10px", color: "#666" }}>
-                  {product.description}
-                </p>
-
-                <strong
-                  style={{
-                    display: "block",
-                    marginTop: "16px",
-                    fontSize: "24px"
-                  }}
-                >
-                  ₩{product.price?.toLocaleString()}
-                </strong>
-
-                <button
-                  className="primary-btn"
-                  style={{ marginTop: "16px" }}
-                  onClick={() => setPage("detail")}
-                >
-                  상품 보기
-                </button>
-              </div>
-            ))
-          )}
-        </div>
-      </section>
 
       <BestItem setPage={setPage} />
       <AboutSection />
@@ -1471,7 +1470,7 @@ function Checkout({ setPage, isLoggedIn, userId, setIsLoggedIn, setOrderHistory 
     });
   };
 
-  const completePayment = () => {
+  const completePayment = async () => {
     if (
       !deliveryInfo.name.trim() ||
       !deliveryInfo.phone.trim() ||
@@ -1483,6 +1482,17 @@ function Checkout({ setPage, isLoggedIn, userId, setIsLoggedIn, setOrderHistory 
 
     if (!paymentMethod) {
       alert("결제 방법을 선택해주세요.");
+      return;
+    }
+
+    try {
+      await saveOrderToSupabase({
+        userId,
+        paymentMethod
+      });
+    } catch (error) {
+      console.error("Supabase 주문/결제 저장 실패:", error);
+      alert("결제 데이터 저장에 실패했습니다. Supabase 정책 또는 환경변수를 확인해주세요.");
       return;
     }
 
@@ -1760,6 +1770,31 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState("passto_user");
   const [orderHistory, setOrderHistory] = useState([]);
+  const pageStartedAtRef = useRef(Date.now());
+  const previousPageRef = useRef("intro");
+
+  useEffect(() => {
+    const now = Date.now();
+    const previousPage = previousPageRef.current;
+    const durationSeconds = (now - pageStartedAtRef.current) / 1000;
+
+    if (previousPage) {
+      saveSessionLog({
+        userId: isLoggedIn ? userId : "guest",
+        pagePath: `/${previousPage}`,
+        durationSeconds
+      });
+    }
+
+    saveSessionLog({
+      userId: isLoggedIn ? userId : "guest",
+      pagePath: `/${page}`,
+      durationSeconds: 0
+    });
+
+    previousPageRef.current = page;
+    pageStartedAtRef.current = now;
+  }, [page, isLoggedIn, userId]);
 
   if (page === "intro") {
     return (
