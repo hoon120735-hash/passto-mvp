@@ -843,101 +843,181 @@ p {
   color: white;
   border: none;
 }
+```css
 /* =========================
-   MOBILE RESPONSIVE
+   MOBILE RESPONSIVE FIX
 ========================= */
 
-* {
-  box-sizing: border-box;
-}
-
-body {
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
   overflow-x: hidden;
 }
 
 img {
   max-width: 100%;
+  height: auto;
 }
 
 @media (max-width: 768px) {
   .site-header {
+    height: auto;
+    padding: 14px 16px !important;
     flex-wrap: wrap;
-    padding: 14px 18px;
     gap: 12px;
   }
 
   .site-header nav {
-    display: none;
+    display: none !important;
+  }
+
+  .logo {
+    font-size: 22px !important;
   }
 
   .login-state,
   .login-mini {
     margin-left: auto;
+    font-size: 13px;
   }
 
   .intro-hero,
   .home-airport-hero {
-    min-height: 640px;
+    min-height: 540px !important;
+    padding: 60px 18px !important;
+  }
+
+  .home-airport-overlay {
+    min-height: 540px !important;
+    padding: 0 18px !important;
   }
 
   .intro-overlay,
-  .home-airport-overlay {
-    padding: 40px 20px;
-  }
-
-  .intro-overlay h1,
-  .home-airport-copy h1 {
-    font-size: 34px;
-    line-height: 1.25;
-  }
-
-  .intro-overlay p,
-  .home-user-text {
-    font-size: 15px;
-  }
-
-  .airport-search-area {
+  .home-airport-copy {
     width: 100%;
     max-width: 100%;
   }
 
-  .airport-search-area input {
-    min-width: 0;
+  .intro-overlay h1,
+  .home-airport-copy h1,
+  h1 {
+    font-size: 32px !important;
+    line-height: 1.3 !important;
+    word-break: keep-all;
   }
 
-  .result-section,
+  h2 {
+    font-size: 26px !important;
+  }
+
+  p,
+  .home-user-text,
+  .home-sub-text {
+    font-size: 14px !important;
+  }
+
+  .airport-search-area,
+  .search-area {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    padding: 12px !important;
+    gap: 10px !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .airport-search-area input,
+  .search-area input {
+    width: 100% !important;
+    height: 46px !important;
+    font-size: 15px !important;
+  }
+
+  .airport-search-area button,
+  .search-area button {
+    width: 100% !important;
+    height: 46px !important;
+  }
+
+  .simple-section,
   .best-section,
   .about-section,
+  .result-section,
+  .empty-section,
   .detail-page,
-  .product-tabs-wrap,
   .cart-page,
   .checkout-page,
-  .guide-page {
-    padding-left: 18px;
-    padding-right: 18px;
+  .complete-page,
+  .guide-page,
+  .product-tabs-wrap {
+    padding: 56px 16px !important;
   }
 
+  .feature-grid,
+  .about-grid,
+  .guide-grid,
   .product-result,
   .detail-page,
   .cart-layout,
-  .checkout-grid,
-  .about-grid {
-    display: grid;
+  .checkout-grid {
     grid-template-columns: 1fr !important;
-    gap: 24px;
+    gap: 22px !important;
   }
 
-  .detail-info {
-    width: 100%;
+  .product-image,
+  .detail-img,
+  .best-img {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1 !important;
+    font-size: 70px !important;
+  }
+
+  .best-card,
+  .product-info,
+  .detail-info,
+  .payment-form,
+  .order-box,
+  .auth-card {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .detail-info h1 {
+    font-size: 30px !important;
+  }
+
+  .detail-info button,
+  .primary-btn,
+  .secondary-btn {
+    width: 100% !important;
+    height: 54px !important;
+    font-size: 16px !important;
+    border-radius: 14px !important;
+  }
+
+  .detail-info button svg {
+    width: 22px !important;
+    height: 22px !important;
+  }
+
+  .price strong {
+    font-size: 24px !important;
   }
 
   .product-tabs {
-    overflow-x: auto;
-    white-space: nowrap;
-    justify-content: flex-start;
+    display: flex !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
   }
 
   .product-tabs button {
+    min-width: 140px;
+    height: 54px !important;
+    font-size: 14px !important;
     flex: 0 0 auto;
   }
 
@@ -948,68 +1028,70 @@ img {
   }
 
   .cart-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 18px;
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+
+  .cart-img {
+    width: 100%;
+    height: 220px;
   }
 
   .qty-box {
-    align-self: flex-start;
+    width: 100%;
+    justify-content: center;
   }
 
-  .order-box {
+  .payment-form input,
+  .auth-card input {
     width: 100%;
+  }
+
+  .footer {
+    padding: 56px 16px !important;
+  }
+
+  .footer-nav {
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 40px;
   }
 
   .footer-main {
     flex-direction: column;
     gap: 20px;
   }
-
-  .footer-nav {
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .auth-card {
-    width: 100%;
-    padding: 28px 20px;
-  }
-
-  .best-card {
-    width: 100%;
-  }
 }
 
 @media (max-width: 480px) {
-  .intro-overlay h1,
+  h1,
   .home-airport-copy h1 {
-    font-size: 28px;
+    font-size: 26px !important;
   }
 
+  h2 {
+    font-size: 22px !important;
+  }
+
+  .detail-info h1 {
+    font-size: 26px !important;
+  }
+
+  .detail-info button,
   .primary-btn,
   .secondary-btn {
-    width: 100%;
+    height: 50px !important;
+    font-size: 15px !important;
   }
 
-  .airport-search-area {
-    flex-direction: column;
-    align-items: stretch;
+  .airport-search-area,
+  .search-area {
+    border-radius: 14px;
   }
 
-  .airport-search-area button {
-    width: 100%;
-  }
-
-  .product-tabs-wrap {
-    padding-top: 24px;
-  }
-
-  .detail-page button {
-    font-size: 18px !important;
-  }
-
-  .detail-page h1 {
-    font-size: 30px;
+  .product-tabs button {
+    min-width: 120px;
+    font-size: 13px !important;
   }
 }
+```
