@@ -843,3 +843,173 @@ p {
   color: white;
   border: none;
 }
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .site-header {
+    flex-wrap: wrap;
+    padding: 14px 18px;
+    gap: 12px;
+  }
+
+  .site-header nav {
+    display: none;
+  }
+
+  .login-state,
+  .login-mini {
+    margin-left: auto;
+  }
+
+  .intro-hero,
+  .home-airport-hero {
+    min-height: 640px;
+  }
+
+  .intro-overlay,
+  .home-airport-overlay {
+    padding: 40px 20px;
+  }
+
+  .intro-overlay h1,
+  .home-airport-copy h1 {
+    font-size: 34px;
+    line-height: 1.25;
+  }
+
+  .intro-overlay p,
+  .home-user-text {
+    font-size: 15px;
+  }
+
+  .airport-search-area {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .airport-search-area input {
+    min-width: 0;
+  }
+
+  .result-section,
+  .best-section,
+  .about-section,
+  .detail-page,
+  .product-tabs-wrap,
+  .cart-page,
+  .checkout-page,
+  .guide-page {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .product-result,
+  .detail-page,
+  .cart-layout,
+  .checkout-grid,
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr !important;
+    gap: 24px;
+  }
+
+  .detail-info {
+    width: 100%;
+  }
+
+  .product-tabs {
+    overflow-x: auto;
+    white-space: nowrap;
+    justify-content: flex-start;
+  }
+
+  .product-tabs button {
+    flex: 0 0 auto;
+  }
+
+  .info-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .cart-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .qty-box {
+    align-self: flex-start;
+  }
+
+  .order-box {
+    width: 100%;
+  }
+
+  .footer-main {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .footer-nav {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .auth-card {
+    width: 100%;
+    padding: 28px 20px;
+  }
+
+  .best-card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .intro-overlay h1,
+  .home-airport-copy h1 {
+    font-size: 28px;
+  }
+
+  .primary-btn,
+  .secondary-btn {
+    width: 100%;
+  }
+
+  .airport-search-area {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .airport-search-area button {
+    width: 100%;
+  }
+
+  .product-tabs-wrap {
+    padding-top: 24px;
+  }
+
+  .detail-page button {
+    font-size: 18px !important;
+  }
+
+  .detail-page h1 {
+    font-size: 30px;
+  }
+}
