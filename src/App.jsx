@@ -971,7 +971,7 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
           </div>
 
           <button
-            onClick={() => setPage("checkout")}
+            onClick={() => setPage("cart")}
             style={{
               width: "100%",
               height: "72px",
@@ -995,7 +995,6 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
           <button
             onClick={() => {
               alert("상품이 장바구니에 담겼습니다.");
-              setPage("cart");
             }}
             style={{
               width: "100%",
@@ -1302,10 +1301,15 @@ function Cart({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
         <div className="cart-layout">
           <div className="cart-item">
             <div className="cart-img">🎒</div>
-            <div>
+
+            <div style={{ flex: 1 }}>
               <h3>일본 여행 키트</h3>
-              <p>기내용 규정 대응 + 일본 실사용 패키지</p>
-              <strong>₩39,800</strong>
+              <p style={{ color: "#666", marginTop: "6px", lineHeight: 1.5 }}>
+                기내용 규정 대응 + 일본 실사용 패키지
+              </p>
+              <strong style={{ display: "block", marginTop: "14px", fontSize: "24px" }}>
+                ₩39,800
+              </strong>
             </div>
 
             <div className="qty-box">
@@ -1321,21 +1325,33 @@ function Cart({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
 
           <div className="order-box">
             <h3>주문 요약</h3>
+
             <p>
               <span>상품 금액</span>
               <strong>₩{total.toLocaleString()}</strong>
             </p>
+
             <p>
               <span>배송비</span>
               <strong>무료</strong>
             </p>
+
             <hr />
+
             <p className="total">
-              <span>결제 예정 금액</span>
+              <span>최종 결제 금액</span>
               <strong>₩{total.toLocaleString()}</strong>
             </p>
 
-            <button className="primary-btn" onClick={() => setPage("checkout")}>
+            <button
+              className="primary-btn"
+              onClick={() => setPage("checkout")}
+              style={{
+                width: "100%",
+                justifyContent: "center",
+                marginTop: "20px"
+              }}
+            >
               결제하기 <CreditCard size={18} />
             </button>
           </div>
