@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { supabase } from "./lib/supabase";
 import {
   Search,
   ShoppingBag,
@@ -593,6 +594,25 @@ function GoogleAuth({ setPage, setIsLoggedIn, setUserId }) {
 function Home({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
   const [keyword, setKeyword] = useState("");
   const [searched, setSearched] = useState(false);
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  async function fetchProducts() {
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .eq("is_active", true);
+
+    if (error) {
+      console.error("Supabase products error:", error);
+      return;
+    }
+
+    setProducts(data || []);
+  }
 
   const value = keyword.trim().toLowerCase();
 
@@ -702,6 +722,70 @@ function Home({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
           </button>
         </section>
       )}
+
+      <section className="result-section">
+        <p className="eyebrow">SUPABASE PRODUCTS</p>
+        <h2>DB에서 불러온 상품</h2>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
+            gap: "20px",
+            marginTop: "30px"
+          }}
+        >
+          {products.length === 0 ? (
+            <div
+              style={{
+                border: "1px solid #eee",
+                borderRadius: "20px",
+                padding: "24px",
+                background: "white",
+                color: "#666"
+              }}
+            >
+              Supabase에 등록된 상품이 없거나 아직 불러오는 중입니다.
+            </div>
+          ) : (
+            products.map((product) => (
+              <div
+                key={product.id}
+                style={{
+                  border: "1px solid #eee",
+                  borderRadius: "20px",
+                  padding: "24px",
+                  background: "white"
+                }}
+              >
+                <h3>{product.name}</h3>
+
+                <p style={{ marginTop: "10px", color: "#666" }}>
+                  {product.description}
+                </p>
+
+                <strong
+                  style={{
+                    display: "block",
+                    marginTop: "16px",
+                    fontSize: "24px"
+                  }}
+                >
+                  ₩{product.price?.toLocaleString()}
+                </strong>
+
+                <button
+                  className="primary-btn"
+                  style={{ marginTop: "16px" }}
+                  onClick={() => setPage("detail")}
+                >
+                  상품 보기
+                </button>
+              </div>
+            ))
+          )}
+        </div>
+      </section>
 
       <BestItem setPage={setPage} />
       <AboutSection />
