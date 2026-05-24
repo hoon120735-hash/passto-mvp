@@ -1168,7 +1168,7 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
                 title="PASSTO 상품 상세페이지"
                 style={{
                   width: "100%",
-                  height: "5200px",
+                  height: "12000px",
                   border: "none",
                   display: "block",
                   background: "#f8f6f1"
