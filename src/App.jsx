@@ -1154,16 +1154,26 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
           <div className="tab-content">
             <div
               style={{
-                maxHeight: detailOpen ? "none" : "520px",
+                maxHeight: detailOpen ? "none" : "720px",
                 overflow: detailOpen ? "visible" : "hidden",
                 position: "relative",
-                marginBottom: "40px"
+                marginBottom: "40px",
+                borderRadius: "18px",
+                border: "1px solid #e5e3dd",
+                background: "#f8f6f1"
               }}
             >
-              {detailImageBox("상품상세 이미지 1 영역")}
-              {detailImageBox("상품상세 이미지 2 영역")}
-              {detailImageBox("상품상세 이미지 3 영역")}
-              {detailImageBox("상품상세 이미지 4 영역")}
+              <iframe
+                src="/PASSTO_detail.html"
+                title="PASSTO 상품 상세페이지"
+                style={{
+                  width: "100%",
+                  height: "5200px",
+                  border: "none",
+                  display: "block",
+                  background: "#f8f6f1"
+                }}
+              />
 
               {!detailOpen && (
                 <div
@@ -1172,7 +1182,7 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
                     left: 0,
                     right: 0,
                     bottom: 0,
-                    height: "160px",
+                    height: "180px",
                     background: "linear-gradient(transparent, white)"
                   }}
                 />
