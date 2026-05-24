@@ -924,6 +924,7 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
             }}
           >
             <img
+              key={currentImage}
               src={productImages[currentImage]}
               alt="상품 이미지"
               onError={(e) => {
@@ -988,7 +989,7 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
             <div style={{ display: "flex", gap: "10px" }}>
               {productImages.map((img, index) => (
                 <button
-                  key={index}
+                  key={`${img}-${index}`}
                   onClick={() => setCurrentImage(index)}
                   style={{
                     width: "70px",
