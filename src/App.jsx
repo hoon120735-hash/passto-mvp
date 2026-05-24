@@ -8,6 +8,8 @@ import {
   Menu,
   ArrowRight,
   CheckCircle,
+  Plus,
+  Minus,
   Plane,
   CreditCard,
   Heart
@@ -19,6 +21,7 @@ const QR_LINK =
 
 const HOME_BG_IMAGE = "/images/airport-bg.jpg";
 
+
 function normalizePaymentMethod(method) {
   if (method === "카카오페이") return "kakao_pay";
   if (method === "신용카드") return "card";
@@ -27,17 +30,13 @@ function normalizePaymentMethod(method) {
 }
 
 async function saveSessionLog({ userId, pagePath, durationSeconds = 0 }) {
-  try {
-    const { error } = await supabase.from("user_sessions").insert({
-      user_email: userId || "guest",
-      page_path: pagePath,
-      duration_seconds: Math.max(0, Math.round(durationSeconds))
-    });
+  const { error } = await supabase.from("user_sessions").insert({
+    user_email: userId || "guest",
+    page_path: pagePath,
+    duration_seconds: Math.max(0, Math.round(durationSeconds))
+  });
 
-    if (error) {
-      console.error("Supabase user_sessions 저장 실패:", error);
-    }
-  } catch (error) {
+  if (error) {
     console.error("Supabase user_sessions 저장 실패:", error);
   }
 }
@@ -56,7 +55,9 @@ async function saveOrderToSupabase({ userId, paymentMethod }) {
     .select()
     .single();
 
-  if (orderError) throw orderError;
+  if (orderError) {
+    throw orderError;
+  }
 
   const { data: product, error: productError } = await supabase
     .from("products")
@@ -83,7 +84,9 @@ async function saveOrderToSupabase({ userId, paymentMethod }) {
     .from("order_items")
     .insert(orderItemPayload);
 
-  if (orderItemError) throw orderItemError;
+  if (orderItemError) {
+    throw orderItemError;
+  }
 
   const { error: paymentError } = await supabase.from("payments").insert({
     order_id: order.id,
@@ -93,7 +96,9 @@ async function saveOrderToSupabase({ userId, paymentMethod }) {
     paid_at: new Date().toISOString()
   });
 
-  if (paymentError) throw paymentError;
+  if (paymentError) {
+    throw paymentError;
+  }
 
   return order;
 }
@@ -1187,12 +1192,15 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
                   color: "#5a63ff",
                   fontSize: "30px",
                   fontWeight: "800",
-                  display: "block",
-                  margin: "0 auto 40px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: "12px",
+                  margin: "0 auto 50px",
                   cursor: "pointer"
                 }}
               >
-                더보기
+                상품정보 더보기⌄
               </button>
             ) : (
               <button
@@ -1201,14 +1209,16 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
                   width: "520px",
                   maxWidth: "100%",
                   height: "78px",
-                  borderRadius: "8px",
-                  border: "2px solid #111",
-                  background: "#111",
-                  color: "white",
-                  fontSize: "26px",
+                  borderRadius: "12px",
+                  border: "4px solid #111",
+                  background: "white",
+                  color: "#111",
+                  fontSize: "28px",
                   fontWeight: "800",
-                  display: "block",
-                  margin: "0 auto 40px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  margin: "30px auto 50px",
                   cursor: "pointer"
                 }}
               >
@@ -1216,20 +1226,27 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
               </button>
             )}
 
+            <h2>필수 표기 정보</h2>
             <table className="info-table">
               <tbody>
                 <tr>
                   <th>상품명</th>
-                  <td>일본 여행 키트</td>
-                  <th>구성</th>
+                  <td>일본 여행 키트 Japan Edition</td>
+                  <th>제품 주요 사항</th>
+                  <td>기내 반입 규정 대응 + 일본 실사용 패키지</td>
+                </tr>
+                <tr>
+                  <th>구성품</th>
                   <td>
                     샴푸 50ml, 바디워시 50ml, 치약 25ml, 지퍼백,
                     110V 어댑터, 동전지갑, QR 가이드
                   </td>
-                </tr>
-                <tr>
                   <th>사용방법</th>
                   <td>QR 가이드를 통해 기내 반입 가능 여부와 체크리스트를 확인하세요.</td>
+                </tr>
+                <tr>
+                  <th>제조국</th>
+                  <td>대한민국 / 일부 구성품 OEM</td>
                   <th>주의사항</th>
                   <td>항공사 및 국가별 규정은 변경될 수 있으므로 출국 전 확인을 권장합니다.</td>
                 </tr>
@@ -1367,30 +1384,59 @@ function Cart({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
 
         <div className="cart-layout">
           <div className="cart-item">
-            <div className="product-image">🎒</div>
+            <div className="cart-img">🎒</div>
 
-            <div>
-              <p className="badge">Japan Edition</p>
-              <h2>일본 여행 키트</h2>
-              <p>기내 반입 대응 + 일본 실사용 패키지</p>
-              <strong>₩{PRODUCT_PRICE.toLocaleString()}</strong>
+            <div style={{ flex: 1 }}>
+              <h3>일본 여행 키트</h3>
+              <p style={{ color: "#666", marginTop: "6px", lineHeight: 1.5 }}>
+                기내용 규정 대응 + 일본 실사용 패키지
+              </p>
+              <strong style={{ display: "block", marginTop: "14px", fontSize: "24px" }}>
+                ₩39,800
+              </strong>
             </div>
 
             <div className="qty-box">
-              <button onClick={() => setQty(Math.max(1, qty - 1))}>-</button>
+              <button onClick={() => setQty(Math.max(1, qty - 1))}>
+                <Minus size={16} />
+              </button>
               <span>{qty}</span>
-              <button onClick={() => setQty(qty + 1)}>+</button>
+              <button onClick={() => setQty(qty + 1)}>
+                <Plus size={16} />
+              </button>
             </div>
           </div>
 
           <div className="order-box">
-            <h2>주문 요약</h2>
-            <p>상품 금액 : ₩{total.toLocaleString()}</p>
-            <p>배송비 : 무료</p>
+            <h3>주문 요약</h3>
+
+            <p>
+              <span>상품 금액</span>
+              <strong>₩{total.toLocaleString()}</strong>
+            </p>
+
+            <p>
+              <span>배송비</span>
+              <strong>무료</strong>
+            </p>
+
             <hr />
-            <h3>총 결제금액 : ₩{total.toLocaleString()}</h3>
-            <button className="primary-btn" onClick={() => setPage("checkout")}>
-              결제하기
+
+            <p className="total">
+              <span>최종 결제 금액</span>
+              <strong>₩{total.toLocaleString()}</strong>
+            </p>
+
+            <button
+              className="primary-btn"
+              onClick={() => setPage("checkout")}
+              style={{
+                width: "100%",
+                justifyContent: "center",
+                marginTop: "20px"
+              }}
+            >
+              결제하기 <CreditCard size={18} />
             </button>
           </div>
         </div>
@@ -1401,22 +1447,17 @@ function Cart({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
   );
 }
 
-function Checkout({
-  setPage,
-  isLoggedIn,
-  userId,
-  setIsLoggedIn,
-  setOrderHistory
-}) {
+function Checkout({ setPage, isLoggedIn, userId, setIsLoggedIn, setOrderHistory }) {
   const [deliveryInfo, setDeliveryInfo] = useState({
     name: "",
     phone: "",
     address: ""
   });
+
   const [paymentMethod, setPaymentMethod] = useState("");
 
   const createOrderNumber = () => {
-    return `PST-${Date.now()}-${Math.floor(Math.random() * 9000 + 1000)}`;
+    return "PASSTO-" + Math.floor(10000000 + Math.random() * 90000000);
   };
 
   const getCurrentTime = () => {
@@ -1532,11 +1573,26 @@ function Checkout({
           </div>
 
           <div className="order-box">
-            <h2>주문 상품</h2>
-            <p>일본 여행 키트</p>
-            <h3>₩39,800</h3>
+            <h3>최종 주문</h3>
+            <p>
+              <span>일본 여행 키트</span>
+              <strong>₩39,800</strong>
+            </p>
+            <p>
+              <span>배송비</span>
+              <strong>무료</strong>
+            </p>
+            <p>
+              <span>결제 방법</span>
+              <strong>{paymentMethod || "미선택"}</strong>
+            </p>
+            <hr />
+            <p className="total">
+              <span>총 결제 금액</span>
+              <strong>₩39,800</strong>
+            </p>
             <button className="primary-btn" onClick={completePayment}>
-              결제 완료
+              결제 완료하기
             </button>
           </div>
         </div>
@@ -1677,17 +1733,34 @@ function Orders({ setPage, isLoggedIn, userId, setIsLoggedIn, orderHistory }) {
 
 function Footer() {
   return (
-    <footer className="footer-main">
-      <div>
-        <strong>PASSTO</strong>
-        <p>Country-specific travel kit platform</p>
-      </div>
-
+    <footer className="footer">
       <div className="footer-nav">
         <span>HOME</span>
         <span>VAS</span>
         <span>SHOP</span>
         <span>ORDERS</span>
+      </div>
+
+      <div className="footer-main">
+        <div>
+          <div className="footer-logo">
+            <Plane size={24} />
+            PASSTO
+          </div>
+          <p>고객센터 : 02-000-0000 &nbsp;&nbsp; 운영시간 : 평일 09:00 ~ 18:00</p>
+          <p>
+            상호명 : 패스토 &nbsp;&nbsp; 대표 : 코룡이 &nbsp;&nbsp;
+            사업자등록번호 : 123-45-67890
+          </p>
+          <p>주소 : 충청남도 천안시</p>
+          <p>© 2026 PASSTO. All rights reserved.</p>
+        </div>
+
+        <div className="socials">
+          <span>◎</span>
+          <span>f</span>
+          <span>▶</span>
+        </div>
       </div>
     </footer>
   );
@@ -1696,11 +1769,10 @@ function Footer() {
 export default function App() {
   const [page, setPage] = useState("intro");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userId, setUserId] = useState("");
+  const [userId, setUserId] = useState("passto_user");
   const [orderHistory, setOrderHistory] = useState([]);
-
-  const previousPageRef = useRef(null);
   const pageStartedAtRef = useRef(Date.now());
+  const previousPageRef = useRef("intro");
 
   useEffect(() => {
     const now = Date.now();
