@@ -1154,87 +1154,28 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
           <div className="tab-content">
             <div
               style={{
-                maxHeight: detailOpen ? "none" : "720px",
-                overflow: detailOpen ? "visible" : "hidden",
-                position: "relative",
+                width: "100%",
                 marginBottom: "40px",
                 borderRadius: "18px",
                 border: "1px solid #e5e3dd",
-                background: "#f8f6f1"
+                background: "transparent",
+                overflow: "hidden"
               }}
             >
               <iframe
                 src="/PASSTO_detail.html"
                 title="PASSTO 상품 상세페이지"
+                scrolling="no"
                 style={{
                   width: "100%",
-                  height: "12000px",
+                  height: "16000px",
                   border: "none",
                   display: "block",
-                  background: "#f8f6f1"
+                  background: "transparent",
+                  overflow: "hidden"
                 }}
               />
-
-              {!detailOpen && (
-                <div
-                  style={{
-                    position: "absolute",
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    height: "180px",
-                    background: "linear-gradient(transparent, white)"
-                  }}
-                />
-              )}
             </div>
-
-            {!detailOpen ? (
-              <button
-                onClick={() => setDetailOpen(true)}
-                style={{
-                  width: "520px",
-                  maxWidth: "100%",
-                  height: "78px",
-                  borderRadius: "8px",
-                  border: "2px solid #5a63ff",
-                  background: "white",
-                  color: "#5a63ff",
-                  fontSize: "30px",
-                  fontWeight: "800",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: "12px",
-                  margin: "0 auto 50px",
-                  cursor: "pointer"
-                }}
-              >
-                상품정보 더보기⌄
-              </button>
-            ) : (
-              <button
-                onClick={scrollToProductTop}
-                style={{
-                  width: "520px",
-                  maxWidth: "100%",
-                  height: "78px",
-                  borderRadius: "12px",
-                  border: "4px solid #111",
-                  background: "white",
-                  color: "#111",
-                  fontSize: "28px",
-                  fontWeight: "800",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  margin: "30px auto 50px",
-                  cursor: "pointer"
-                }}
-              >
-                지금 바로 챙겨가세요
-              </button>
-            )}
 
             <h2>필수 표기 정보</h2>
             <table className="info-table">
