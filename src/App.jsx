@@ -1387,7 +1387,33 @@ function Cart({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
 
         <div className="cart-layout">
           <div className="cart-item">
-            <div className="cart-img">🎒</div>
+            <div
+              className="cart-img"
+              style={{
+                overflow: "hidden",
+                borderRadius: "18px",
+                background: "#f3f3f3"
+              }}
+            >
+              <img
+                src="/images/product1.jpg"
+                alt="일본 여행 키트"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  display: "block"
+                }}
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
+                  e.currentTarget.parentElement.textContent = "🎒";
+                  e.currentTarget.parentElement.style.display = "flex";
+                  e.currentTarget.parentElement.style.alignItems = "center";
+                  e.currentTarget.parentElement.style.justifyContent = "center";
+                  e.currentTarget.parentElement.style.fontSize = "60px";
+                }}
+              />
+            </div>
 
             <div style={{ flex: 1 }}>
               <h3>일본 여행 키트</h3>
@@ -1474,6 +1500,17 @@ function Checkout({ setPage, isLoggedIn, userId, setIsLoggedIn, setOrderHistory 
     });
   };
 
+  const getDeliveryDate = () => {
+    const date = new Date();
+    date.setDate(date.getDate() + 5);
+
+    const weekday = ["일", "월", "화", "수", "목", "금", "토"][date.getDay()];
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${month}/${day}(${weekday})`;
+  };
+
   const completePayment = async () => {
     if (
       !deliveryInfo.name.trim() ||
@@ -1503,6 +1540,7 @@ function Checkout({ setPage, isLoggedIn, userId, setIsLoggedIn, setOrderHistory 
     const newOrder = {
       productName: "일본 여행 키트",
       paymentTime: getCurrentTime(),
+      deliveryDate: getDeliveryDate(),
       paymentAmount: "₩29,000",
       paymentMethod,
       orderNumber: createOrderNumber()
@@ -1720,12 +1758,164 @@ function Orders({ setPage, isLoggedIn, userId, setIsLoggedIn, orderHistory }) {
 
         <div className="delivery-status-box">
           <h2>배송 진행 상태</h2>
-          <div className="delivery-placeholder">배송 상태 이미지 영역</div>
-          <p>
-            나중에 이미지 업로드 시
-            <br />
-            배송 현황 이미지가 표시됩니다.
-          </p>
+
+          {orderHistory.length === 0 ? (
+            <div
+              style={{
+                marginTop: "18px",
+                padding: "34px 20px",
+                borderRadius: "18px",
+                background: "#f5f5f5",
+                color: "#777",
+                textAlign: "center",
+                fontWeight: "700"
+              }}
+            >
+              결제 후 배송 진행 상태가 표시됩니다.
+            </div>
+          ) : (
+            <div
+              style={{
+                marginTop: "18px",
+                borderRadius: "18px",
+                overflow: "hidden",
+                border: "1px solid #e1e1e1",
+                background: "#f4f4f4"
+              }}
+            >
+              <div
+                style={{
+                  padding: "26px 18px 22px",
+                  textAlign: "center",
+                  borderBottom: "1px solid #dddddd",
+                  background: "#f1f1f1"
+                }}
+              >
+                <h3
+                  style={{
+                    margin: 0,
+                    fontSize: "32px",
+                    lineHeight: 1.25,
+                    fontWeight: "500",
+                    color: "#3f4650"
+                  }}
+                >
+                  {orderHistory[0].deliveryDate} 도착 예정
+                </h3>
+                <p
+                  style={{
+                    margin: "8px 0 0",
+                    fontSize: "18px",
+                    color: "#59616d"
+                  }}
+                >
+                  고객님의 상품을 준비중입니다.
+                </p>
+              </div>
+
+              <div
+                style={{
+                  padding: "34px 24px 26px",
+                  background: "#f4f4f4"
+                }}
+              >
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(5, 1fr)",
+                    gap: "12px",
+                    textAlign: "center",
+                    alignItems: "start"
+                  }}
+                >
+                  {[
+                    { icon: "▭", label: "결제완료", active: true },
+                    { icon: "🛒", label: "상품준비중", active: true },
+                    { icon: "🚚", label: "배송시작", active: false },
+                    { icon: "🚚", label: "배송중", active: false },
+                    { icon: "▣", label: "배송완료", active: false }
+                  ].map((step, index) => (
+                    <div key={step.label} style={{ minWidth: 0 }}>
+                      <div
+                        style={{
+                          height: "42px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontSize: index === 0 || index === 4 ? "34px" : "30px",
+                          color: step.active ? "#6d767f" : "#c8cdd6",
+                          opacity: step.active ? 1 : 0.75
+                        }}
+                      >
+                        {step.icon}
+                      </div>
+                      <div
+                        style={{
+                          marginTop: "8px",
+                          fontSize: "17px",
+                          fontWeight: "700",
+                          color: step.active ? "#5b6570" : "#c8cdd6"
+                        }}
+                      >
+                        {step.label}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div
+                  style={{
+                    position: "relative",
+                    height: "28px",
+                    margin: "18px 38px 0"
+                  }}
+                >
+                  <div
+                    style={{
+                      position: "absolute",
+                      left: 0,
+                      right: 0,
+                      top: "11px",
+                      height: "5px",
+                      background: "#cfd6d3",
+                      borderRadius: "999px"
+                    }}
+                  />
+                  <div
+                    style={{
+                      position: "absolute",
+                      left: 0,
+                      width: "25%",
+                      top: "11px",
+                      height: "5px",
+                      background: "#72aa82",
+                      borderRadius: "999px"
+                    }}
+                  />
+                  {[0, 25, 50, 75, 100].map((left, index) => {
+                    const active = index <= 1;
+                    return (
+                      <span
+                        key={left}
+                        style={{
+                          position: "absolute",
+                          left: `${left}%`,
+                          top: 0,
+                          transform: "translateX(-50%)",
+                          width: "22px",
+                          height: "22px",
+                          borderRadius: "50%",
+                          background: "white",
+                          border: active ? "5px solid #72aa82" : "5px solid #cfd6d3",
+                          boxSizing: "border-box"
+                        }}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
