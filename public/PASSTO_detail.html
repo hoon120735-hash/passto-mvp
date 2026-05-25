@@ -287,6 +287,15 @@
   .img-4x3 { aspect-ratio: 4/3; }
   .img-16x9 { aspect-ratio: 16/9; }
   .img-3x4 { aspect-ratio: 3/4; }
+
+.real-detail-image{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  border-radius:inherit;
+}
+
   
   /* ========== Layout Helpers ========== */
   .section {
@@ -4011,28 +4020,11 @@ body {
     <div class="pouch">
       <h3>파우치부터 달라요</h3>
       
-      <div class="img-card img-1x1 photo-filled">
-        <img src="./uploaded-photo.png" alt="파우치 손에 든 컷">
-      </div>
       
-      <div class="pouch-tagline">손바닥 두 개 크기.<br>A5 종이 한 장만 한.</div>
-      <div class="pouch-emphasis">근데 13가지가 다 들어가요.</div>
-      
-      <ul class="pouch-specs">
-        <li>더블 지퍼 (메인 + 전면 포켓)</li>
-        <li>리사이클 폴리에스터 600D</li>
-        <li>발수 처리</li>
-        <li>"JPN ✓" 가죽 태그</li>
-      </ul>
-      
-      <div class="pouch-thumbs">
-        <div class="img-card photo-filled">
-        <img src="./uploaded-photo.png" alt="캐리어 수납">
-      </div>
-        <div class="img-card photo-filled">
-        <img src="./uploaded-photo.png" alt="백팩 수납">
-      </div>
-      </div>
+<div class="img-card">
+  <img src="/images/detail1.jpg" class="real-detail-image" alt="detail1">
+</div>
+
       
       <p class="pouch-hook">열어볼게요.</p>
     </div>
@@ -4042,38 +4034,11 @@ body {
       <h3>공항 보안 검색대 기준에<br>맞춰 준비한 것들</h3>
       <p class="zone-tagline">규정 맞춤 5종</p>
       
-      <div class="img-card img-16x9 photo-filled" style="margin-bottom: 24px;">
-        <img src="./uploaded-photo.png" alt="세면 4종 + 지퍼백 라인업">
-      </div>
       
-      <ul class="compliance-list">
-        <li class="compliance-item">
-          <span class="name"><span class="num">01</span>폼클렌징 50ml</span>
-          <span class="check">100ml ✓</span>
-        </li>
-        <li class="compliance-item">
-          <span class="name"><span class="num">02</span>샴푸 50ml</span>
-          <span class="check">100ml ✓</span>
-        </li>
-        <li class="compliance-item">
-          <span class="name"><span class="num">03</span>바디워시 50ml</span>
-          <span class="check">100ml ✓</span>
-        </li>
-        <li class="compliance-item">
-          <span class="name"><span class="num">04</span>치약 25ml</span>
-          <span class="check">100ml ✓</span>
-        </li>
-        <li class="compliance-item">
-          <span class="name"><span class="num">05</span>1L 투명 지퍼백</span>
-          <span class="check">20×20cm 정품</span>
-        </li>
-      </ul>
-      
-      <div class="total-volume">
-        <div class="label">총 액체량</div>
-        <div class="value">175ml</div>
-        <div class="desc">1L 기준에 맞춰 여유 있게 준비</div>
-      </div>
+<div class="img-card">
+  <img src="/images/detail2.jpg" class="real-detail-image" alt="detail2">
+</div>
+
       
       <div class="why-box">
         <h4>왜 이 구성인가요?</h4>
@@ -4149,15 +4114,11 @@ body {
       <h3>흩어진 검색을<br>한 장으로 줄인다</h3>
       
       <div class="zone-3-teaser">
-        <div class="img-card img-16x9 photo-filled contain">
-        <img src="./uploaded-photo.png" alt="QR 카드 앞/뒷면">
-      </div>
-        <div style="font-size: 15px; font-weight: 600; margin-bottom: 8px;">
-          #13 QR 규정 가이드 카드
-        </div>
-        <a href="#qr-spotlight" class="arrow">자세히 보기 →</a>
-      </div>
-    </div>
+        
+<div class="img-card">
+  <img src="/images/detail3.jpg" class="real-detail-image" alt="detail3">
+</div>
+
   </section>
   
   <!-- ========== QR SPOTLIGHT ========== -->
@@ -4175,10 +4136,11 @@ body {
     </p>
     
     <div class="card-mockup">
-      <div class="img-card photo-filled contain">
-        <img src="./uploaded-photo.png" alt="QR 카드 앞면 (국문)">
-      </div>
-    </div>
+      
+<div class="img-card">
+  <img src="/images/detail4.jpg" class="real-detail-image" alt="detail4">
+</div>
+
     
     <div class="card-side">
       <span class="card-side-label">앞면 · 국문</span>
@@ -4191,10 +4153,11 @@ body {
     </div>
     
     <div class="card-mockup">
-      <div class="img-card photo-filled contain">
-        <img src="./uploaded-photo.png" alt="QR 카드 뒷면 (영문)">
-      </div>
-    </div>
+      
+<div class="img-card">
+  <img src="/images/detail5.jpg" class="real-detail-image" alt="detail5">
+</div>
+
     
     <div class="card-side">
       <span class="card-side-label">뒷면 · 영문</span>
@@ -4275,9 +4238,11 @@ body {
         <span class="timeline-day">D-1 · 짐 쌀 때</span>
         <h4 class="timeline-title">QR 체크리스트 따라 분류</h4>
         <p class="timeline-body">기내 가방 / 위탁 캐리어로 나눠서 담아요. 새벽 검색을 줄일 수 있어요.</p>
-        <div class="timeline-image"><div class="img-card photo-filled">
-        <img src="./uploaded-photo.png" alt="침대 위 짐 정리">
-      </div></div>
+        <div class="timeline-image">
+<div class="img-card">
+  <img src="/images/detail6.jpg" class="real-detail-image" alt="detail6">
+</div>
+
         <div class="timeline-uses">
           <span class="timeline-use">QR 가이드 카드</span>
         </div>
@@ -4287,9 +4252,11 @@ body {
         <span class="timeline-day">D-Day · 공항·기내</span>
         <h4 class="timeline-title">영문 카드 제시</h4>
         <p class="timeline-body">보안 검색대에서 구성품 설명이 필요할 때 영문 카드를 참고 자료로 보여줄 수 있어요.</p>
-        <div class="timeline-image"><div class="img-card photo-filled">
-        <img src="./uploaded-photo.png" alt="공항 보안검색대">
-      </div></div>
+        <div class="timeline-image">
+<div class="img-card">
+  <img src="/images/detail7.jpg" class="real-detail-image" alt="detail7">
+</div>
+
         <div class="timeline-uses">
           <span class="timeline-use">영문 안내 카드</span>
           <span class="timeline-use">세면 4종 + 지퍼백</span>
@@ -4300,9 +4267,11 @@ body {
         <span class="timeline-day">D1 · 호텔 도착</span>
         <h4 class="timeline-title">어댑터부터 꽂기</h4>
         <p class="timeline-body">콘센트에 어댑터 먼저 꽂고 세면용품 정리. 핸드폰 충전부터 시작.</p>
-        <div class="timeline-image"><div class="img-card photo-filled">
-        <img src="./uploaded-photo.png" alt="호텔 욕실">
-      </div></div>
+        <div class="timeline-image">
+<div class="img-card">
+  <img src="/images/detail8.jpg" class="real-detail-image" alt="detail8">
+</div>
+
         <div class="timeline-uses">
           <span class="timeline-use">110V 어댑터</span>
           <span class="timeline-use">세면 4종</span>
@@ -4313,9 +4282,11 @@ body {
         <span class="timeline-day">D2 · 온센</span>
         <h4 class="timeline-title">온센 매너 체크</h4>
         <p class="timeline-body">미니 수건과 헤어밴드만 들고 로비로. 온센 매너 준비도 놓치지 않도록 챙겨요.</p>
-        <div class="timeline-image"><div class="img-card photo-filled">
-        <img src="./uploaded-photo.png" alt="온센 입구">
-      </div></div>
+        <div class="timeline-image">
+<div class="img-card">
+  <img src="/images/detail9.jpg" class="real-detail-image" alt="detail9">
+</div>
+
         <div class="timeline-uses">
           <span class="timeline-use">미니 수건</span>
           <span class="timeline-use">헤어밴드</span>
@@ -4326,9 +4297,11 @@ body {
         <span class="timeline-day">D2 저녁 · 편의점</span>
         <h4 class="timeline-title">컵라면 + 푸딩</h4>
         <p class="timeline-body">컵라면에 숟가락 꽂고 물티슈로 손 닦고. 일본 편의점, 이제 두렵지 않아요.</p>
-        <div class="timeline-image"><div class="img-card photo-filled">
-        <img src="./uploaded-photo.png" alt="편의점 앞 벤치">
-      </div></div>
+        <div class="timeline-image">
+<div class="img-card">
+  <img src="/images/detail10.jpg" class="real-detail-image" alt="detail10">
+</div>
+
         <div class="timeline-uses">
           <span class="timeline-use">일회용 숟가락</span>
           <span class="timeline-use">미니 물티슈</span>
@@ -4339,9 +4312,11 @@ body {
         <span class="timeline-day">D3 · 마트·쇼핑</span>
         <h4 class="timeline-title">비닐봉투 0엔</h4>
         <p class="timeline-body">"비닐봉투 필요하세요?" — "괜찮아요." 파우치에서 장바구니를 꺼내 바로 담아요.</p>
-        <div class="timeline-image"><div class="img-card photo-filled">
-        <img src="./uploaded-photo.png" alt="마트 계산대">
-      </div></div>
+        <div class="timeline-image">
+<div class="img-card">
+  <img src="/images/detail11.jpg" class="real-detail-image" alt="detail11">
+</div>
+
         <div class="timeline-uses">
           <span class="timeline-use">접이식 장바구니</span>
           <span class="timeline-use">동전 지갑</span>
@@ -4352,9 +4327,11 @@ body {
         <span class="timeline-day">D4 · 귀국</span>
         <h4 class="timeline-title">다음은 어디로?</h4>
         <p class="timeline-body">PASSTO Australia · Singapore (출시 예정)</p>
-        <div class="timeline-image"><div class="img-card photo-filled">
-        <img src="./uploaded-photo.png" alt="공항 출국장">
-      </div></div>
+        <div class="timeline-image">
+<div class="img-card">
+  <img src="/images/detail12.jpg" class="real-detail-image" alt="detail12">
+</div>
+
       </div>
     </div>
     
