@@ -15,7 +15,7 @@ import {
   Heart
 } from "lucide-react";
 
-const PRODUCT_PRICE = 39800;
+const PRODUCT_PRICE = 29000;
 const QR_LINK =
   "https://claude.ai/public/artifacts/c259cd38-f8cb-49c2-bf99-9c378c00d1c8";
 
@@ -746,33 +746,7 @@ function Home({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
           <h2>일본 여행 키트를 찾았어요.</h2>
 
           <div className="product-result">
-            <div
-              className="product-image"
-              style={{
-                overflow: "hidden",
-                borderRadius: "18px",
-                background: "#f3f3f3"
-              }}
-            >
-              <img
-                src="/images/product1.jpg"
-                alt="일본 여행 키트"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  display: "block"
-                }}
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
-                  e.currentTarget.parentElement.textContent = "🎒";
-                  e.currentTarget.parentElement.style.display = "flex";
-                  e.currentTarget.parentElement.style.alignItems = "center";
-                  e.currentTarget.parentElement.style.justifyContent = "center";
-                  e.currentTarget.parentElement.style.fontSize = "80px";
-                }}
-              />
-            </div>
+            <div className="product-image">🎒</div>
             <div className="product-info">
               <p className="badge">Japan Edition</p>
               <h3>일본 여행 키트</h3>
@@ -786,7 +760,7 @@ function Home({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
                 <span>QR 가이드</span>
               </div>
               <div className="price">
-                <strong>₩39,800</strong>
+                <strong>₩29,000</strong>
                 <del>₩52,700</del>
               </div>
               <button className="primary-btn" onClick={() => setPage("detail")}>
@@ -827,36 +801,10 @@ function BestItem({ setPage }) {
       <h2>가장 먼저 준비해야 할 일본 여행 키트</h2>
 
       <div className="best-card" onClick={() => setPage("detail")}>
-        <div
-        className="best-img"
-        style={{
-          overflow: "hidden",
-          borderRadius: "18px",
-          background: "#f3f3f3"
-        }}
-      >
-        <img
-          src="/images/product1.jpg"
-          alt="일본 여행 키트"
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            display: "block"
-          }}
-          onError={(e) => {
-            e.currentTarget.style.display = "none";
-            e.currentTarget.parentElement.textContent = "🎒";
-            e.currentTarget.parentElement.style.display = "flex";
-            e.currentTarget.parentElement.style.alignItems = "center";
-            e.currentTarget.parentElement.style.justifyContent = "center";
-            e.currentTarget.parentElement.style.fontSize = "60px";
-          }}
-        />
-      </div>
+        <div className="best-img">🧴 🛂 🔌</div>
         <h3>일본 여행 키트</h3>
         <div className="price center-price">
-          <strong>₩39,800</strong>
+          <strong>₩29,000</strong>
           <del>₩52,700</del>
         </div>
         <p>기내 반입 대응 + 일본 실사용 패키지</p>
@@ -1102,7 +1050,7 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
           </p>
 
           <div className="price">
-            <strong>₩39,800</strong>
+            <strong>₩29,000</strong>
             <del>₩52,700</del>
           </div>
 
@@ -1220,7 +1168,7 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
                 scrolling="no"
                 style={{
                   width: "100%",
-                  height: "16000px",
+                  height: "22000px",
                   border: "none",
                   display: "block",
                   background: "transparent",
@@ -1395,7 +1343,7 @@ function Cart({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
                 기내용 규정 대응 + 일본 실사용 패키지
               </p>
               <strong style={{ display: "block", marginTop: "14px", fontSize: "24px" }}>
-                ₩39,800
+                ₩29,000
               </strong>
             </div>
 
@@ -1503,7 +1451,7 @@ function Checkout({ setPage, isLoggedIn, userId, setIsLoggedIn, setOrderHistory 
     const newOrder = {
       productName: "일본 여행 키트",
       paymentTime: getCurrentTime(),
-      paymentAmount: "₩39,800",
+      paymentAmount: "₩29,000",
       paymentMethod,
       orderNumber: createOrderNumber()
     };
@@ -1579,7 +1527,7 @@ function Checkout({ setPage, isLoggedIn, userId, setIsLoggedIn, setOrderHistory 
             <h3>최종 주문</h3>
             <p>
               <span>일본 여행 키트</span>
-              <strong>₩39,800</strong>
+              <strong>₩29,000</strong>
             </p>
             <p>
               <span>배송비</span>
@@ -1592,7 +1540,7 @@ function Checkout({ setPage, isLoggedIn, userId, setIsLoggedIn, setOrderHistory 
             <hr />
             <p className="total">
               <span>총 결제 금액</span>
-              <strong>₩39,800</strong>
+              <strong>₩29,000</strong>
             </p>
             <button className="primary-btn" onClick={completePayment}>
               결제 완료하기
