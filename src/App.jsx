@@ -746,7 +746,33 @@ function Home({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
           <h2>일본 여행 키트를 찾았어요.</h2>
 
           <div className="product-result">
-            <div className="product-image">🎒</div>
+            <div
+              className="product-image"
+              style={{
+                overflow: "hidden",
+                borderRadius: "18px",
+                background: "#f3f3f3"
+              }}
+            >
+              <img
+                src="/images/product1.jpg"
+                alt="일본 여행 키트"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  display: "block"
+                }}
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
+                  e.currentTarget.parentElement.textContent = "🎒";
+                  e.currentTarget.parentElement.style.display = "flex";
+                  e.currentTarget.parentElement.style.alignItems = "center";
+                  e.currentTarget.parentElement.style.justifyContent = "center";
+                  e.currentTarget.parentElement.style.fontSize = "80px";
+                }}
+              />
+            </div>
             <div className="product-info">
               <p className="badge">Japan Edition</p>
               <h3>일본 여행 키트</h3>
@@ -801,7 +827,33 @@ function BestItem({ setPage }) {
       <h2>가장 먼저 준비해야 할 일본 여행 키트</h2>
 
       <div className="best-card" onClick={() => setPage("detail")}>
-        <div className="best-img">🧴 🛂 🔌</div>
+        <div
+        className="best-img"
+        style={{
+          overflow: "hidden",
+          borderRadius: "18px",
+          background: "#f3f3f3"
+        }}
+      >
+        <img
+          src="/images/product1.jpg"
+          alt="일본 여행 키트"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            display: "block"
+          }}
+          onError={(e) => {
+            e.currentTarget.style.display = "none";
+            e.currentTarget.parentElement.textContent = "🎒";
+            e.currentTarget.parentElement.style.display = "flex";
+            e.currentTarget.parentElement.style.alignItems = "center";
+            e.currentTarget.parentElement.style.justifyContent = "center";
+            e.currentTarget.parentElement.style.fontSize = "60px";
+          }}
+        />
+      </div>
         <h3>일본 여행 키트</h3>
         <div className="price center-price">
           <strong>₩29,000</strong>
