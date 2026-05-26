@@ -2184,4 +2184,3 @@ export default function App() {
   if (page === "orders") return <Orders {...commonProps} />;
 
   return <Home {...commonProps} />;
-}
