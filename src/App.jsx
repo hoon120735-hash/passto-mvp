@@ -1283,7 +1283,7 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
                 scrolling="no"
                 style={{
                   width: "100%",
-                  height: "22000px",
+                  height: detailOpen ? "22000px" : "3200px",
                   border: "none",
                   display: "block",
                   background: "transparent",
@@ -1291,6 +1291,40 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
                 }}
               />
             </div>
+
+            <button
+              onClick={() => setDetailOpen(!detailOpen)}
+              style={{
+                width: "100%",
+                maxWidth: "520px",
+                height: "88px",
+                margin: "0 auto 56px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "14px",
+                border: "2px solid #5d6bff",
+                borderRadius: "12px",
+                background: "white",
+                color: "#5d6bff",
+                fontSize: "34px",
+                fontWeight: "700",
+                cursor: "pointer"
+              }}
+            >
+              {detailOpen ? "상품정보 접기" : "상품정보 더보기"}
+              <span
+                style={{
+                  transform: detailOpen ? "rotate(180deg)" : "rotate(0deg)",
+                  transition: "0.3s",
+                  display: "inline-block",
+                  fontSize: "40px",
+                  lineHeight: 1
+                }}
+              >
+                ˅
+              </span>
+            </button>
 
             <ProductDetailBottomCta setPage={setPage} />
 
