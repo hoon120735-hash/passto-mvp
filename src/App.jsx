@@ -1270,7 +1270,7 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
             <div
               style={{
                 width: "100%",
-                marginBottom: "40px",
+                marginBottom: "20px",
                 borderRadius: "18px",
                 border: "1px solid #e5e3dd",
                 background: "transparent",
@@ -1284,7 +1284,7 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
                 scrolling="no"
                 style={{
                   width: "100%",
-                  height: detailOpen ? "22000px" : "3000px",
+                  height: detailOpen ? "22000px" : "1600px",
                   border: "none",
                   display: "block",
                   background: "transparent",
@@ -1299,9 +1299,8 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
                     left: 0,
                     right: 0,
                     bottom: 0,
-                    height: "260px",
-                    background: "linear-gradient(to bottom, rgba(255,255,255,0), #ffffff)",
-                    pointerEvents: "none"
+                    height: "280px",
+                    background: "linear-gradient(to bottom, rgba(255,255,255,0), #ffffff)"
                   }}
                 />
               )}
@@ -1313,7 +1312,7 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
                 width: "100%",
                 maxWidth: "520px",
                 height: "88px",
-                margin: "0 auto 56px",
+                margin: "0 auto 40px",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -1341,7 +1340,7 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
               </span>
             </button>
 
-            <ProductDetailBottomCta setPage={setPage} />
+            {detailOpen && <ProductDetailBottomCta setPage={setPage} />}
 
             <h2>필수 표기 정보</h2>
             <table className="info-table">
