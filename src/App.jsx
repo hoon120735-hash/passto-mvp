@@ -1274,7 +1274,8 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
                 borderRadius: "18px",
                 border: "1px solid #e5e3dd",
                 background: "transparent",
-                overflow: "hidden"
+                overflow: "hidden",
+                position: "relative"
               }}
             >
               <iframe
@@ -1283,13 +1284,27 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
                 scrolling="no"
                 style={{
                   width: "100%",
-                  height: detailOpen ? "22000px" : "3200px",
+                  height: detailOpen ? "22000px" : "3000px",
                   border: "none",
                   display: "block",
                   background: "transparent",
                   overflow: "hidden"
                 }}
               />
+
+              {!detailOpen && (
+                <div
+                  style={{
+                    position: "absolute",
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    height: "260px",
+                    background: "linear-gradient(to bottom, rgba(255,255,255,0), #ffffff)",
+                    pointerEvents: "none"
+                  }}
+                />
+              )}
             </div>
 
             <button
