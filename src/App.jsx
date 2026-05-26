@@ -1340,8 +1340,6 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
               </span>
             </button>
 
-            {detailOpen && <ProductDetailBottomCta setPage={setPage} />}
-
             <h2>필수 표기 정보</h2>
             <table className="info-table">
               <tbody>
@@ -1368,6 +1366,8 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
                 </tr>
               </tbody>
             </table>
+
+            {detailOpen && <ProductDetailBottomCta setPage={setPage} />}
           </div>
         )}
 
