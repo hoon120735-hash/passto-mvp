@@ -885,6 +885,79 @@ function AboutSection() {
   );
 }
 
+function ProductDetailBottomCta({ setPage }) {
+  return (
+    <section
+      style={{
+        width: "100%",
+        margin: "30px auto 56px",
+        padding: "90px 46px 86px",
+        background: "#eaf6f8",
+        textAlign: "center",
+        boxSizing: "border-box"
+      }}
+    >
+      <h2
+        style={{
+          margin: "0 0 56px",
+          fontSize: "clamp(44px, 7vw, 82px)",
+          lineHeight: 1.12,
+          letterSpacing: "-0.06em",
+          fontWeight: "300",
+          color: "#1f1f1f"
+        }}
+      >
+        이제 여행만
+        <br />
+        <strong style={{ fontWeight: "900" }}>생각하면 돼요.</strong>
+      </h2>
+
+      <button
+        onClick={() => setPage("cart")}
+        style={{
+          width: "100%",
+          maxWidth: "1000px",
+          minHeight: "120px",
+          border: "none",
+          background: "linear-gradient(90deg, #66b7d0 0%, #fee34a 100%)",
+          color: "#1d1d1d",
+          fontSize: "clamp(24px, 3vw, 36px)",
+          fontWeight: "900",
+          cursor: "pointer",
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "10px"
+        }}
+      >
+        지금 바로 챙겨가세요 →
+      </button>
+
+      <p
+        style={{
+          margin: "52px 0 0",
+          color: "#6a6a6a",
+          fontSize: "clamp(22px, 2.5vw, 30px)",
+          textDecoration: "line-through"
+        }}
+      >
+        ₩27,900
+      </p>
+
+      <p
+        style={{
+          margin: "12px 0 0",
+          color: "#111",
+          fontSize: "clamp(32px, 4vw, 48px)",
+          fontWeight: "900"
+        }}
+      >
+        ₩29,000
+      </p>
+    </section>
+  );
+}
+
 function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
   const [tab, setTab] = useState("detail");
   const [liked, setLiked] = useState(false);
@@ -1228,6 +1301,8 @@ function Detail({ setPage, isLoggedIn, userId, setIsLoggedIn }) {
                 }}
               />
             </div>
+
+            <ProductDetailBottomCta setPage={setPage} />
 
             <h2>필수 표기 정보</h2>
             <table className="info-table">
