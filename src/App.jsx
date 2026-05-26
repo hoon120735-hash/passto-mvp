@@ -933,16 +933,6 @@ function ProductDetailBottomCta({ setPage }) {
         지금 바로 챙겨가세요 →
       </button>
 
-      <p
-        style={{
-          margin: "52px 0 0",
-          color: "#6a6a6a",
-          fontSize: "clamp(22px, 2.5vw, 30px)",
-          textDecoration: "line-through"
-        }}
-      >
-        ₩27,900
-      </p>
 
       <p
         style={{
